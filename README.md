@@ -109,3 +109,4 @@ At registration, the following information is captured and stored:
 - Street address (line 1 & 2), suburb, state, postcode
 - Booking history and payment transactions
 - Account balance
+
