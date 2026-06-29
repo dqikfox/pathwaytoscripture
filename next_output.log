@@ -11,3 +11,12 @@
  GET / 200 in 4.1s (next.js: 3.5s, application-code: 626ms)
  GET /contact 200 in 833ms (next.js: 696ms, application-code: 137ms)
  GET /login 200 in 885ms (next.js: 749ms, application-code: 136ms)
+⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+▲ Next.js 16.2.9 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+- Environments: .env
+✓ Ready in 1348ms
+
+ GET / 200 in 1328ms (next.js: 695ms, application-code: 633ms)
+ GET /contact 200 in 209ms (next.js: 56ms, application-code: 154ms)
