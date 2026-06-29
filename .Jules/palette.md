@@ -1,0 +1,3 @@
+## 2025-01-27 - ARIA labels on Icon-only Bootstrap Buttons
+**Learning:** Found that this application frequently utilizes Bootstrap's icon-only buttons (like `.navbar-toggler` and `.btn-close`) without associated ARIA labels. This causes screen readers to potentially announce them as blank or unhelpful buttons.
+**Action:** Always ensure that whenever an icon-only button (from Bootstrap or otherwise) is added or modified, an appropriate `aria-label` is applied to describe its function to assistive technologies.
