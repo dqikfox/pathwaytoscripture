@@ -1,0 +1,57 @@
+<%- include('partials/header') %>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <h1 class="section-title mb-2">Contact Us</h1>
+      <p class="text-muted mb-4">Have a question about our Bible study sessions? We'd love to hear from you.</p>
+
+      <%- include('partials/flash') %>
+
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <div class="row gy-4">
+            <div class="col-md-5">
+              <h5>Get in Touch</h5>
+              <ul class="list-unstyled text-muted">
+                <li class="mb-2"><i class="bi bi-envelope text-primary me-2"></i>
+                  <a href="mailto:info@pathwaytoscripture.org">info@pathwaytoscripture.org</a>
+                </li>
+                <li class="mb-2"><i class="bi bi-globe text-primary me-2"></i>
+                  pathwaytoscripture.org
+                </li>
+              </ul>
+              <hr />
+              <p class="text-muted small fst-italic">
+                "For I know the plans I have for you," declares the Lord,
+                "plans to prosper you and not to harm you, plans to give you
+                hope and a future." — Jeremiah 29:11
+              </p>
+            </div>
+            <div class="col-md-7">
+              <form>
+                <div class="mb-3">
+                  <label class="form-label">Your Name</label>
+                  <input type="text" class="form-control" placeholder="First and last name" />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Email Address</label>
+                  <input type="email" class="form-control" placeholder="your@email.com" />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Message</label>
+                  <textarea class="form-control" rows="4" placeholder="Your enquiry…"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">
+                  <i class="bi bi-send"></i> Send Message
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
