@@ -32,7 +32,7 @@ async function seed() {
       country: 'Australia',
       role: 'admin',
     });
-    console.log(`✓ Admin account created: ${ADMIN_EMAIL} / ${ADMIN_PASSWORD}`);
+    console.log(`✓ Admin account created: ${ADMIN_EMAIL} (password set from SEED_ADMIN_PASSWORD env var)`);
   } else {
     console.log(`  Admin account already exists: ${ADMIN_EMAIL}`);
   }

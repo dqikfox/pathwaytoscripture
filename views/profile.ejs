@@ -37,6 +37,7 @@
         <div class="card-body">
           <%- include('partials/errors') %>
           <form method="POST" action="/dashboard/profile" novalidate>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
             <div class="row g-3">
               <div class="col-sm-6">
                 <label class="form-label">First Name <span class="text-danger">*</span></label>
@@ -101,6 +102,7 @@
         <div class="card-header bg-light"><h5 class="mb-0">Change Password</h5></div>
         <div class="card-body">
           <form method="POST" action="/dashboard/change-password" novalidate>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
             <div class="row g-3">
               <div class="col-sm-6">
                 <label class="form-label">Current Password</label>

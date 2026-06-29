@@ -6,7 +6,9 @@ const express = require('express');
 const path = require('path');
 const session = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
+const rateLimit = require('express-rate-limit');
 const fs = require('fs');
+const { csrfLocals, csrfProtection } = require('./middleware/csrf');
 
 // Ensure data directory exists for session store
 const DATA_DIR = path.join(__dirname, 'data');
@@ -19,13 +21,36 @@ const PORT = process.env.PORT || 3000;
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+// ─── Rate limiters ────────────────────────────────────────────────────────────
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: 'Too many requests from this IP, please try again later.',
+});
+
+// Apply rate limiting to auth endpoints
+app.use('/login', authLimiter);
+app.use('/register', authLimiter);
+
+// Apply rate limiting to password change
+const passwordLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: 'Too many password change attempts, please try again later.',
+});
+app.use('/dashboard/change-password', passwordLimiter);
+
 // ─── Middleware ───────────────────────────────────────────────────────────────
+// Raw body needed by Stripe webhook – must be registered before urlencoded parser
+app.use('/bookings/webhook', express.raw({ type: 'application/json' }));
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
-// Stripe webhook needs raw body – must be registered before the JSON parser above
-// (the /bookings/webhook route uses express.raw internally)
 
 app.use(session({
   store: new SQLiteStore({ db: 'sessions.db', dir: DATA_DIR }),
@@ -35,9 +60,16 @@ app.use(session({
   cookie: {
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
+    sameSite: 'lax',
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   },
 }));
+
+// CSRF token injection (must come after session)
+app.use(csrfLocals);
+
+// CSRF validation on all state-changing routes (POST/PUT/DELETE)
+app.use(csrfProtection);
 
 // Make session user available to all views
 app.use((req, res, next) => {

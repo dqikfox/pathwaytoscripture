@@ -13,6 +13,7 @@
           <%- include('../partials/errors') %>
 
           <form method="POST" action="<%= session ? '/admin/sessions/' + session.id + '/edit' : '/admin/sessions' %>">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
             <div class="card shadow-sm">
               <div class="card-body">
                 <div class="row g-3">
