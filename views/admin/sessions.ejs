@@ -1,0 +1,66 @@
+<%- include('../partials/header') %>
+
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-md-2 mb-4">
+      <%- include('_sidebar', { active: 'sessions' }) %>
+    </div>
+    <div class="col-md-10">
+      <%- include('../partials/flash') %>
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Manage Sessions</h2>
+        <a href="/admin/sessions/new" class="btn btn-primary">
+          <i class="bi bi-plus-lg"></i> New Session
+        </a>
+      </div>
+
+      <div class="table-responsive card shadow-sm">
+        <table class="table table-hover mb-0 align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Title</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Facilitator</th>
+              <th>Price</th>
+              <th>Capacity</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% sessions.forEach(s => { %>
+              <tr>
+                <td><strong><%= s.title %></strong>
+                  <% if (s.location) { %><br><small class="text-muted"><i class="bi bi-geo-alt"></i> <%= s.location %></small><% } %>
+                </td>
+                <td><%= s.session_date %></td>
+                <td><%= s.session_time.substring(0,5) %></td>
+                <td><%= s.facilitator || '—' %></td>
+                <td>$<%= (s.price_cents / 100).toFixed(2) %></td>
+                <td><%= s.spots_taken %>/<%= s.capacity %></td>
+                <td>
+                  <span class="badge <%= s.is_active ? 'bg-success' : 'bg-secondary' %>">
+                    <%= s.is_active ? 'Active' : 'Inactive' %>
+                  </span>
+                </td>
+                <td>
+                  <a href="/admin/sessions/<%= s.id %>/edit" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                  <form method="POST" action="/admin/sessions/<%= s.id %>/delete" class="d-inline"
+                    onsubmit="return confirm('Delete this session?')">
+                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+            <% if (sessions.length === 0) { %>
+              <tr><td colspan="8" class="text-center text-muted py-3">No sessions yet.</td></tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
