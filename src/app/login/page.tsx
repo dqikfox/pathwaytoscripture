@@ -3,6 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { BookOpen, AlertCircle, ArrowRight } from "lucide-react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -19,7 +20,7 @@ export default function Login() {
     });
 
     if (result?.error) {
-      setError("Invalid credentials");
+      setError("Invalid credentials. Please try again.");
     } else {
       router.push("/admin");
       router.refresh();
@@ -27,41 +28,56 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-140px)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
-          </h2>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && <div className="text-red-500 text-center text-sm">{error}</div>}
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="email-address" className="sr-only">Email address</label>
-              <input id="email-address" name="email" type="email" required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
-                value={email} onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">Password</label>
-              <input id="password" name="password" type="password" required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-                value={password} onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-          </div>
+    <div className="min-h-[calc(100vh-160px)] flex flex-col items-center justify-center py-16 px-4 sm:px-6 lg:px-8 bg-[#FDFBF7]">
+      <div className="max-w-md w-full">
 
-          <div>
-            <button type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              Sign in
-            </button>
-          </div>
-        </form>
+        <div className="text-center mb-12">
+           <div className="flex justify-center text-[#C5A059] mb-6">
+              <BookOpen strokeWidth={1.5} size={32} />
+           </div>
+          <h2 className="text-3xl font-serif font-bold text-[#2F3337] tracking-tight">
+            Admin Portal
+          </h2>
+          <p className="mt-3 text-[#2F3337]/70">Sign in to manage pathway content</p>
+        </div>
+
+        <div className="bg-white p-8 md:p-12 border border-[#E5E2DC] shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
+          <form className="space-y-8" onSubmit={handleSubmit}>
+
+            {error && (
+              <div className="p-4 border border-red-200 bg-red-50 flex items-start">
+                  <AlertCircle strokeWidth={1.5} className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
+                  <p className="ml-3 text-sm text-red-800 leading-relaxed">{error}</p>
+              </div>
+            )}
+
+            <div className="space-y-6">
+              <div>
+                <label htmlFor="email-address" className="block text-sm font-medium text-[#2F3337] mb-2 uppercase tracking-widest text-xs">Email address</label>
+                <input id="email-address" name="email" type="email" required
+                  className="py-3 px-4 block w-full bg-[#FDFBF7] border border-[#E5E2DC] text-[#2F3337] focus:ring-0 focus:border-[#C5A059] transition-colors outline-none"
+                  value={email} onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-[#2F3337] mb-2 uppercase tracking-widest text-xs">Password</label>
+                <input id="password" name="password" type="password" required
+                  className="py-3 px-4 block w-full bg-[#FDFBF7] border border-[#E5E2DC] text-[#2F3337] focus:ring-0 focus:border-[#C5A059] transition-colors outline-none"
+                  value={password} onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="pt-2">
+              <button type="submit"
+                className="group w-full flex justify-center items-center py-4 px-4 border border-transparent text-sm font-bold tracking-widest uppercase text-white bg-[#C5A059] hover:bg-[#b08d4b] focus:outline-none transition-all duration-300">
+                Sign in
+                <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

@@ -1,35 +1,32 @@
 {
-  "name": "pathwaytoscripture",
-  "version": "1.0.0",
-  "description": "Pathway to Scripture – Catholic Bible Study Sessions",
-  "main": "server.js",
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
-    "seed": "node seed.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dqikfox/pathwaytoscripture.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/dqikfox/pathwaytoscripture/issues"
-  },
-  "homepage": "https://github.com/dqikfox/pathwaytoscripture#readme",
   "dependencies": {
-    "bcrypt": "^5.1.1",
-    "better-sqlite3": "^11.7.0",
-    "connect-sqlite3": "^0.9.15",
-    "dotenv": "^16.4.7",
-    "ejs": "^3.1.10",
-    "express": "^4.21.2",
-    "express-rate-limit": "^8.5.2",
-    "express-session": "^1.18.1",
-    "express-validator": "^7.2.1",
-    "stripe": "^17.7.0"
+    "@prisma/client": "^6.19.3",
+    "bcryptjs": "^3.0.3",
+    "lucide-react": "^1.22.0",
+    "next": "16.2.9",
+    "next-auth": "^4.24.14",
+    "prisma": "^6.19.3",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.9",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }
