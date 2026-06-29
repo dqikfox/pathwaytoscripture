@@ -1,0 +1,182 @@
+<%- include('partials/header') %>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+
+      <!-- Session info -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0"><%= session.title %></h4>
+        </div>
+        <div class="card-body">
+          <div class="row gy-2">
+            <div class="col-sm-6">
+              <p class="mb-1"><i class="bi bi-calendar3 text-primary"></i>
+                <strong>Date:</strong>
+                <%= new Date(session.session_date + 'T' + session.session_time).toLocaleDateString('en-AU', { weekday:'long', year:'numeric', month:'long', day:'numeric' }) %>
+              </p>
+              <p class="mb-1"><i class="bi bi-clock text-primary"></i>
+                <strong>Time:</strong> <%= session.session_time.substring(0,5) %>
+              </p>
+              <p class="mb-1"><i class="bi bi-hourglass-split text-primary"></i>
+                <strong>Duration:</strong> <%= session.duration_mins %> minutes
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <% if (session.facilitator) { %>
+                <p class="mb-1"><i class="bi bi-person text-primary"></i>
+                  <strong>Facilitator:</strong> <%= session.facilitator %>
+                </p>
+              <% } %>
+              <% if (session.location) { %>
+                <p class="mb-1"><i class="bi bi-geo-alt text-primary"></i>
+                  <strong>Location:</strong> <%= session.location %>
+                </p>
+              <% } %>
+              <% if (session.online_link) { %>
+                <p class="mb-1"><i class="bi bi-camera-video text-primary"></i>
+                  <strong>Online:</strong> <a href="<%= session.online_link %>" target="_blank" rel="noopener">Join Link</a>
+                </p>
+              <% } %>
+            </div>
+          </div>
+          <% if (session.description) { %>
+            <hr />
+            <p class="text-muted"><%= session.description %></p>
+          <% } %>
+          <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+            <div>
+              <span class="fs-4 fw-bold text-primary">$<%= (session.price_cents / 100).toFixed(2) %></span>
+              <small class="text-muted"> inc. GST</small>
+            </div>
+            <% const spots = session.capacity - session.spots_taken; %>
+            <span class="badge fs-6 <%= spots > 5 ? 'bg-success' : (spots > 0 ? 'bg-warning text-dark' : 'bg-danger') %>">
+              <%= spots > 0 ? spots + ' of ' + session.capacity + ' spots remaining' : 'Fully Booked' %>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment form -->
+      <% if (spots > 0) { %>
+      <div class="card shadow-sm">
+        <div class="card-header bg-light">
+          <h5 class="mb-0"><i class="bi bi-credit-card"></i> Secure Payment</h5>
+        </div>
+        <div class="card-body">
+          <div id="payment-message" class="alert d-none"></div>
+
+          <div id="payment-element" class="mb-3">
+            <!-- Stripe Elements will mount here -->
+            <div class="text-center py-3 text-muted">
+              <div class="spinner-border spinner-border-sm me-2"></div> Loading payment form…
+            </div>
+          </div>
+
+          <form id="payment-form">
+            <input type="hidden" id="session-id" value="<%= session.id %>" />
+            <input type="hidden" id="booking-id" value="" />
+            <button id="submit-btn" class="btn btn-primary w-100 fw-semibold py-2" disabled>
+              <span id="btn-spinner" class="spinner-border spinner-border-sm me-2 d-none"></span>
+              <span id="btn-text">Pay $<%= (session.price_cents / 100).toFixed(2) %> – Secure your spot</span>
+            </button>
+          </form>
+
+          <p class="text-muted small text-center mt-2">
+            <i class="bi bi-lock-fill text-success"></i>
+            Payments are processed securely by Stripe. Your card details are never stored on our servers.
+          </p>
+        </div>
+      </div>
+      <% } else { %>
+        <div class="alert alert-warning text-center">
+          <i class="bi bi-exclamation-circle"></i> This session is fully booked. Please check other sessions.
+        </div>
+      <% } %>
+
+      <div class="mt-3">
+        <a href="/sessions" class="btn btn-outline-secondary">
+          <i class="bi bi-arrow-left"></i> Back to Sessions
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<% if (spots > 0) { %>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+(function() {
+  const stripeKey = '<%= stripePublishableKey %>';
+  const sessionId = document.getElementById('session-id').value;
+  const messageEl = document.getElementById('payment-message');
+  const submitBtn = document.getElementById('submit-btn');
+  const btnSpinner = document.getElementById('btn-spinner');
+
+  if (!stripeKey || stripeKey.startsWith('pk_test_YOUR')) {
+    messageEl.className = 'alert alert-warning';
+    messageEl.textContent = 'Payment is not configured yet. Please contact the administrator.';
+    messageEl.classList.remove('d-none');
+    return;
+  }
+
+  const stripe = Stripe(stripeKey);
+  let elements;
+  let bookingId;
+
+  // 1. Create PaymentIntent
+  fetch('/bookings/create-payment-intent', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ session_id: sessionId }),
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.error) {
+      messageEl.className = 'alert alert-danger';
+      messageEl.textContent = data.error;
+      messageEl.classList.remove('d-none');
+      return;
+    }
+    bookingId = data.bookingId;
+    document.getElementById('booking-id').value = bookingId;
+
+    elements = stripe.elements({ clientSecret: data.clientSecret });
+    const paymentElement = elements.create('payment');
+    paymentElement.mount('#payment-element');
+    paymentElement.on('ready', () => { submitBtn.disabled = false; });
+  })
+  .catch(() => {
+    messageEl.className = 'alert alert-danger';
+    messageEl.textContent = 'Could not initialise payment. Please refresh and try again.';
+    messageEl.classList.remove('d-none');
+  });
+
+  // 2. Handle form submit
+  document.getElementById('payment-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    btnSpinner.classList.remove('d-none');
+
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: window.location.origin + '/bookings/confirm?booking_id=' + bookingId,
+      },
+    });
+
+    if (error) {
+      messageEl.className = 'alert alert-danger';
+      messageEl.textContent = error.message;
+      messageEl.classList.remove('d-none');
+      submitBtn.disabled = false;
+      btnSpinner.classList.add('d-none');
+    }
+  });
+})();
+</script>
+<% } %>
+
+<%- include('partials/footer') %>

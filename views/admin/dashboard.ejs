@@ -1,0 +1,108 @@
+<%- include('../partials/header') %>
+
+<div class="container-fluid py-4">
+  <div class="row">
+    <!-- Admin sidebar -->
+    <div class="col-md-2 mb-4">
+      <%- include('_sidebar', { active: 'dashboard' }) %>
+    </div>
+
+    <div class="col-md-10">
+      <%- include('../partials/flash') %>
+
+      <h2 class="mb-4">Admin Dashboard</h2>
+
+      <!-- Stats -->
+      <div class="row gy-3 mb-4">
+        <div class="col-sm-6 col-lg-3">
+          <div class="card text-white bg-primary h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <p class="mb-1 small opacity-75">Customers</p>
+                  <h3 class="mb-0"><%= customerCount %></h3>
+                </div>
+                <i class="bi bi-people fs-1 opacity-50"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="card text-white bg-success h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <p class="mb-1 small opacity-75">Upcoming Sessions</p>
+                  <h3 class="mb-0"><%= upcomingCount %></h3>
+                </div>
+                <i class="bi bi-calendar3 fs-1 opacity-50"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="card text-white bg-warning h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <p class="mb-1 small opacity-75">Total Revenue</p>
+                  <h3 class="mb-0">$<%= (totalRevenueCents / 100).toFixed(2) %></h3>
+                </div>
+                <i class="bi bi-currency-dollar fs-1 opacity-50"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="card text-white bg-info h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <p class="mb-1 small opacity-75">Recent Bookings</p>
+                  <h3 class="mb-0"><%= recentBookings.length %></h3>
+                </div>
+                <i class="bi bi-journal-check fs-1 opacity-50"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Bookings -->
+      <h5 class="mb-3">Recent Bookings</h5>
+      <div class="table-responsive card shadow-sm">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Customer</th>
+              <th>Session</th>
+              <th>Date</th>
+              <th>Payment</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% recentBookings.forEach(b => { %>
+              <tr>
+                <td><%= b.first_name %> <%= b.last_name %><br><small class="text-muted"><%= b.email %></small></td>
+                <td><%= b.title %></td>
+                <td class="small"><%= b.session_date %> <%= b.session_time.substring(0,5) %></td>
+                <td>
+                  <span class="badge <%= b.payment_status === 'paid' ? 'bg-success' : 'bg-warning text-dark' %>">
+                    <%= b.payment_status %>
+                  </span>
+                </td>
+                <td>$<%= (b.amount_cents / 100).toFixed(2) %></td>
+              </tr>
+            <% }) %>
+            <% if (recentBookings.length === 0) { %>
+              <tr><td colspan="5" class="text-center text-muted py-3">No bookings yet.</td></tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

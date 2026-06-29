@@ -1,0 +1,113 @@
+<%- include('partials/header') %>
+
+<!-- Hero Section -->
+<section class="hero-section text-white text-center d-flex align-items-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <span class="hero-cross display-1">✝</span>
+        <h1 class="display-4 fw-bold mt-3">Pathway to Scripture</h1>
+        <p class="lead mb-4">
+          Join our guided Catholic Bible study sessions and deepen your understanding
+          of God's Word in a warm, welcoming community.
+        </p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+          <a href="/sessions" class="btn btn-warning btn-lg fw-semibold">
+            <i class="bi bi-book-half"></i> View Sessions
+          </a>
+          <% if (!locals.user) { %>
+            <a href="/register" class="btn btn-outline-light btn-lg">
+              <i class="bi bi-person-plus"></i> Create Account
+            </a>
+          <% } else { %>
+            <a href="/dashboard" class="btn btn-outline-light btn-lg">
+              <i class="bi bi-speedometer2"></i> My Dashboard
+            </a>
+          <% } %>
+        </div>
+        <p class="mt-4 hero-price">
+          <span class="badge bg-warning text-dark fs-6 px-3 py-2">$99 inc. GST per session</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row text-center gy-4">
+      <div class="col-md-4">
+        <div class="feature-icon mb-3"><i class="bi bi-book text-primary fs-1"></i></div>
+        <h4>Deep Scripture Study</h4>
+        <p class="text-muted">Explore the Old and New Testaments with knowledgeable Catholic facilitators who bring the texts to life.</p>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-icon mb-3"><i class="bi bi-people text-primary fs-1"></i></div>
+        <h4>Community &amp; Fellowship</h4>
+        <p class="text-muted">Connect with fellow believers in a supportive group environment that encourages growth and reflection.</p>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-icon mb-3"><i class="bi bi-calendar-check text-primary fs-1"></i></div>
+        <h4>Flexible Scheduling</h4>
+        <p class="text-muted">Book sessions that suit your schedule. View upcoming dates and secure your spot online in minutes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Upcoming Sessions Preview -->
+<% if (upcomingSessions && upcomingSessions.length > 0) { %>
+<section class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-4 section-title">Upcoming Bible Study Sessions</h2>
+    <div class="row gy-4">
+      <% upcomingSessions.forEach(s => { %>
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm session-card">
+            <div class="card-body">
+              <h5 class="card-title text-primary"><%= s.title %></h5>
+              <p class="text-muted small mb-2">
+                <i class="bi bi-calendar3"></i>
+                <%= new Date(s.session_date + 'T' + s.session_time).toLocaleDateString('en-AU', { weekday:'long', year:'numeric', month:'long', day:'numeric' }) %>
+                &nbsp;<i class="bi bi-clock ms-1"></i> <%= s.session_time.substring(0,5) %>
+              </p>
+              <% if (s.location) { %>
+                <p class="text-muted small mb-2"><i class="bi bi-geo-alt"></i> <%= s.location %></p>
+              <% } %>
+              <p class="card-text small text-muted"><%= s.description ? s.description.substring(0, 100) + (s.description.length > 100 ? '…' : '') : '' %></p>
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <span class="fw-bold text-primary">$<%= (s.price_cents / 100).toFixed(2) %> <small class="text-muted fw-normal">inc. GST</small></span>
+                <span class="badge <%= s.capacity - s.spots_taken > 5 ? 'bg-success' : (s.capacity - s.spots_taken > 0 ? 'bg-warning text-dark' : 'bg-danger') %>">
+                  <%= s.capacity - s.spots_taken > 0 ? (s.capacity - s.spots_taken) + ' spots left' : 'Full' %>
+                </span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent">
+              <a href="/sessions/<%= s.id %>" class="btn btn-primary w-100">Book Now</a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+    <div class="text-center mt-4">
+      <a href="/sessions" class="btn btn-outline-primary">See All Sessions <i class="bi bi-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<!-- CTA -->
+<section class="py-5 bg-primary text-white text-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <h3>Ready to begin your journey?</h3>
+        <p class="lead opacity-75 mb-4">Create a free account to register and book Bible study sessions.</p>
+        <a href="/register" class="btn btn-warning btn-lg fw-semibold">Get Started Today</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
