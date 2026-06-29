@@ -1,0 +1,113 @@
+<%- include('../partials/header') %>
+
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-md-2 mb-4">
+      <%- include('_sidebar', { active: 'customers' }) %>
+    </div>
+    <div class="col-md-10">
+      <div class="d-flex align-items-center mb-4 gap-3">
+        <a href="/admin/customers" class="btn btn-outline-secondary btn-sm">
+          <i class="bi bi-arrow-left"></i> Customers
+        </a>
+        <h2 class="mb-0"><%= customer.first_name %> <%= customer.last_name %></h2>
+        <% if (customer.role === 'admin') { %>
+          <span class="badge bg-danger">Admin</span>
+        <% } %>
+      </div>
+
+      <div class="row gy-4">
+        <!-- Customer Info -->
+        <div class="col-md-5">
+          <div class="card shadow-sm h-100">
+            <div class="card-header bg-light"><h5 class="mb-0">Customer Information</h5></div>
+            <div class="card-body">
+              <dl class="row mb-0">
+                <dt class="col-5">Name</dt>
+                <dd class="col-7"><%= customer.first_name %> <%= customer.last_name %></dd>
+                <dt class="col-5">Email</dt>
+                <dd class="col-7"><a href="mailto:<%= customer.email %>"><%= customer.email %></a></dd>
+                <dt class="col-5">Phone</dt>
+                <dd class="col-7"><%= customer.phone || '—' %></dd>
+                <dt class="col-5">Address</dt>
+                <dd class="col-7">
+                  <%= [customer.address_line1, customer.address_line2, customer.suburb,
+                       customer.state, customer.postcode].filter(Boolean).join(', ') || '—' %>
+                </dd>
+                <dt class="col-5">Registered</dt>
+                <dd class="col-7 small"><%= new Date(customer.created_at).toLocaleDateString('en-AU') %></dd>
+                <dt class="col-5">Balance</dt>
+                <dd class="col-7 fw-bold text-primary">$<%= customer.account_balance.toFixed(2) %></dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bookings -->
+        <div class="col-md-7">
+          <div class="card shadow-sm">
+            <div class="card-header bg-light"><h5 class="mb-0">Bookings (<%= bookings.length %>)</h5></div>
+            <div class="table-responsive">
+              <table class="table table-sm table-hover mb-0">
+                <thead class="table-light">
+                  <tr><th>Session</th><th>Date</th><th>Payment</th><th>Amount</th></tr>
+                </thead>
+                <tbody>
+                  <% bookings.forEach(b => { %>
+                    <tr>
+                      <td><%= b.title %></td>
+                      <td class="small"><%= b.session_date %></td>
+                      <td>
+                        <span class="badge <%= b.payment_status === 'paid' ? 'bg-success' : 'bg-warning text-dark' %>">
+                          <%= b.payment_status %>
+                        </span>
+                      </td>
+                      <td>$<%= (b.amount_cents / 100).toFixed(2) %></td>
+                    </tr>
+                  <% }) %>
+                  <% if (bookings.length === 0) { %>
+                    <tr><td colspan="4" class="text-center text-muted py-2">No bookings.</td></tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Transactions -->
+        <div class="col-12">
+          <div class="card shadow-sm">
+            <div class="card-header bg-light"><h5 class="mb-0">Transaction History</h5></div>
+            <div class="table-responsive">
+              <table class="table table-sm table-hover mb-0">
+                <thead class="table-light">
+                  <tr><th>Date</th><th>Description</th><th>Type</th><th>Amount</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                  <% transactions.forEach(t => { %>
+                    <tr>
+                      <td class="small text-muted"><%= new Date(t.created_at).toLocaleDateString('en-AU') %></td>
+                      <td><%= t.description || '—' %></td>
+                      <td><span class="badge bg-secondary"><%= t.type %></span></td>
+                      <td class="fw-bold">$<%= (t.amount_cents / 100).toFixed(2) %></td>
+                      <td>
+                        <span class="badge <%= t.status === 'completed' ? 'bg-success' : 'bg-warning text-dark' %>">
+                          <%= t.status %>
+                        </span>
+                      </td>
+                    </tr>
+                  <% }) %>
+                  <% if (transactions.length === 0) { %>
+                    <tr><td colspan="5" class="text-center text-muted py-2">No transactions.</td></tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,60 @@
+<%- include('../partials/header') %>
+
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-md-2 mb-4">
+      <%- include('_sidebar', { active: 'customers' }) %>
+    </div>
+    <div class="col-md-10">
+      <h2 class="mb-4">Customer Database</h2>
+      <p class="text-muted"><%= customers.length %> registered customer<%= customers.length !== 1 ? 's' : '' %></p>
+
+      <div class="table-responsive card shadow-sm">
+        <table class="table table-hover mb-0 align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Location</th>
+              <th>Balance</th>
+              <th>Registered</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% customers.forEach(c => { %>
+              <tr>
+                <td class="text-muted small"><%= c.id %></td>
+                <td>
+                  <strong><%= c.first_name %> <%= c.last_name %></strong>
+                  <% if (c.role === 'admin') { %>
+                    <span class="badge bg-danger ms-1">Admin</span>
+                  <% } %>
+                </td>
+                <td><%= c.email %></td>
+                <td><%= c.phone || '—' %></td>
+                <td class="small text-muted">
+                  <%= [c.suburb, c.state].filter(Boolean).join(', ') || '—' %>
+                </td>
+                <td>$<%= c.account_balance.toFixed(2) %></td>
+                <td class="small text-muted">
+                  <%= new Date(c.created_at).toLocaleDateString('en-AU') %>
+                </td>
+                <td>
+                  <a href="/admin/customers/<%= c.id %>" class="btn btn-sm btn-outline-primary">View</a>
+                </td>
+              </tr>
+            <% }) %>
+            <% if (customers.length === 0) { %>
+              <tr><td colspan="8" class="text-center text-muted py-3">No customers yet.</td></tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
