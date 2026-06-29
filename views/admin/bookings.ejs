@@ -1,0 +1,55 @@
+<%- include('../partials/header') %>
+
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-md-2 mb-4">
+      <%- include('_sidebar', { active: 'bookings' }) %>
+    </div>
+    <div class="col-md-10">
+      <h2 class="mb-4">All Bookings</h2>
+
+      <div class="table-responsive card shadow-sm">
+        <table class="table table-hover mb-0 align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>#</th>
+              <th>Customer</th>
+              <th>Session</th>
+              <th>Date</th>
+              <th>Booked</th>
+              <th>Payment</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% bookings.forEach(b => { %>
+              <tr>
+                <td class="text-muted small"><%= b.id %></td>
+                <td>
+                  <a href="/admin/customers/<%= b.user_id %>">
+                    <%= b.first_name %> <%= b.last_name %>
+                  </a><br>
+                  <small class="text-muted"><%= b.email %></small>
+                </td>
+                <td><%= b.title %></td>
+                <td class="small"><%= b.session_date %> <%= b.session_time.substring(0,5) %></td>
+                <td class="small text-muted"><%= new Date(b.created_at).toLocaleDateString('en-AU') %></td>
+                <td>
+                  <span class="badge <%= b.payment_status === 'paid' ? 'bg-success' : 'bg-warning text-dark' %>">
+                    <%= b.payment_status %>
+                  </span>
+                </td>
+                <td>$<%= (b.amount_cents / 100).toFixed(2) %></td>
+              </tr>
+            <% }) %>
+            <% if (bookings.length === 0) { %>
+              <tr><td colspan="7" class="text-center text-muted py-3">No bookings yet.</td></tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
