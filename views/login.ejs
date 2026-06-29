@@ -12,6 +12,7 @@
       <%- include('partials/errors') %>
 
       <form method="POST" action="/login" novalidate>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
         <div class="mb-3">
           <label class="form-label">Email Address</label>
           <input type="email" name="email" class="form-control"
