@@ -1,0 +1,148 @@
+/* ── Pathway to Scripture – Custom Styles ─────────────────────────── */
+
+/* Override Bootstrap primary with a deeper navy/blue fitting Catholic aesthetic */
+:root {
+  --bs-primary: #1a3a5c;
+  --bs-primary-rgb: 26, 58, 92;
+  --pts-gold: #c9a84c;
+  --pts-gold-light: #f5d78b;
+  --pts-navy: #1a3a5c;
+}
+
+/* Fonts */
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: #2d2d2d;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Playfair Display', serif;
+}
+
+/* ── Navbar ──────────────────────────────────────────────────────────── */
+.navbar.bg-primary {
+  background-color: var(--pts-navy) !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,.25);
+}
+
+.brand-cross {
+  font-size: 1.5rem;
+  color: var(--pts-gold);
+}
+
+.brand-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.brand-text .text-warning {
+  color: var(--pts-gold) !important;
+}
+
+/* ── Hero Section ────────────────────────────────────────────────────── */
+.hero-section {
+  background: linear-gradient(135deg, var(--pts-navy) 0%, #2e6095 60%, #1a5276 100%);
+  min-height: 520px;
+  padding: 5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' opacity='0.04'%3E%3Ctext y='48' font-size='48'%3E✝%3C/text%3E%3C/svg%3E") repeat;
+}
+
+.hero-cross {
+  color: var(--pts-gold);
+  opacity: 0.7;
+  line-height: 1;
+}
+
+/* ── Section Titles ──────────────────────────────────────────────────── */
+.section-title {
+  color: var(--pts-navy);
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: var(--pts-gold);
+  margin-top: 0.4rem;
+}
+
+/* ── Session Cards ───────────────────────────────────────────────────── */
+.session-card {
+  border: none;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.session-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.12) !important;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────── */
+.btn-primary {
+  background-color: var(--pts-navy);
+  border-color: var(--pts-navy);
+}
+.btn-primary:hover, .btn-primary:focus {
+  background-color: #14304e;
+  border-color: #14304e;
+}
+
+.btn-warning {
+  background-color: var(--pts-gold);
+  border-color: var(--pts-gold);
+  color: #fff;
+}
+.btn-warning:hover {
+  background-color: #b8952e;
+  border-color: #b8952e;
+  color: #fff;
+}
+
+.btn-outline-primary {
+  color: var(--pts-navy);
+  border-color: var(--pts-navy);
+}
+.btn-outline-primary:hover {
+  background-color: var(--pts-navy);
+  color: #fff;
+}
+
+/* ── Forms ───────────────────────────────────────────────────────────── */
+.form-control:focus, .form-select:focus {
+  border-color: var(--pts-navy);
+  box-shadow: 0 0 0 .2rem rgba(26, 58, 92, .15);
+}
+
+/* ── Dashboard sidebar ───────────────────────────────────────────────── */
+.list-group-item-action.active {
+  background-color: var(--pts-navy);
+  border-color: var(--pts-navy);
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────── */
+footer.bg-primary {
+  background-color: var(--pts-navy) !important;
+}
+
+/* ── Tables ──────────────────────────────────────────────────────────── */
+.table > thead {
+  border-bottom: 2px solid var(--pts-navy);
+}
+
+/* ── Badge override ──────────────────────────────────────────────────── */
+.badge.bg-primary {
+  background-color: var(--pts-navy) !important;
+}
