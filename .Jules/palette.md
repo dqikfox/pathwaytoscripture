@@ -1,0 +1,3 @@
+## 2024-07-01 - Form and Navigation Accessibility Improvements
+**Learning:** Found that `<label>` elements were missing explicit `for` attributes connecting them to inputs, and the mobile navigation toggle button lacked an `aria-label`. These are common but critical accessibility gaps in server-rendered templates (like EJS) that often lack strict linting for a11y compared to modern frameworks.
+**Action:** Always ensure that form labels are explicitly associated with their corresponding inputs using `for` and `id` attributes. Additionally, always provide `aria-label`s for icon-only buttons like navigation togglers to ensure screen reader users understand their purpose.
