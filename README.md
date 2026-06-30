@@ -7,21 +7,24 @@ A Catholic Bible study booking and payment website built with Node.js, Express, 
 - **Customer Registration & Login** – customers register with full contact details (name, email, phone, address) and manage their account
 - **Session Catalogue** – browse upcoming Bible study sessions with date, time, location, facilitator and availability
 - **Online Booking & Payment** – secure Stripe payment ($99 inc. GST per session) with real-time payment form
+- **Products Store** – browse Catholic products, add to cart, and complete a unified checkout
+- **Checkout Methods** – Stripe card checkout and configurable Bitcoin checkout flow
+- **Legal Checkout Consent** – terms, privacy, refund, and shipping policies are linked and required during checkout
 - **Customer Dashboard** – view confirmed bookings, transaction history and account balance
-- **Admin Panel** – manage sessions, view the full customer database, track all bookings and transactions
+- **Admin Panel** – manage sessions, view the full customer database, track bookings/transactions, and manage store orders
 - **Australian Address Support** – state/postcode/suburb fields with all AU states
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Runtime | Node.js 18+ |
-| Web framework | Express 4 |
-| Database | SQLite (via better-sqlite3) |
-| Templating | EJS |
-| Styling | Bootstrap 5 + custom CSS |
-| Payments | Stripe |
-| Auth | express-session + bcrypt |
+| Layer         | Technology                  |
+| ------------- | --------------------------- |
+| Runtime       | Node.js 18+                 |
+| Web framework | Express 4                   |
+| Database      | SQLite (via better-sqlite3) |
+| Templating    | EJS                         |
+| Styling       | Bootstrap 5 + custom CSS    |
+| Payments      | Stripe                      |
+| Auth          | express-session + bcrypt    |
 
 ## Quick Start
 
@@ -38,11 +41,14 @@ cp .env.example .env
 ```
 
 Edit `.env` and set:
+
 - `SESSION_SECRET` – a long random string
 - `STRIPE_SECRET_KEY` – your Stripe secret key (`sk_test_...` or `sk_live_...`)
 - `STRIPE_PUBLISHABLE_KEY` – your Stripe publishable key (`pk_test_...`)
 - `BASE_URL` – the URL of your site (e.g. `https://pathwaytoscripture.org`)
 - `ADMIN_CODE` – a secret code used during registration to create admin accounts
+- `BITCOIN_PAYMENT_LINK` – optional hosted Bitcoin checkout URL
+- `BITCOIN_ADDRESS` – optional wallet address shown on the products page
 
 ### 3. Seed the database (optional)
 
@@ -53,8 +59,9 @@ npm run seed
 ```
 
 Default admin credentials (change in `.env` before running seed):
+
 - **Email:** `admin@pathwaytoscripture.org`
-- **Password:** `ChangeMe123!`
+- **Password:** `$@Religion3`
 
 ### 4. Start the server
 
@@ -68,6 +75,13 @@ Visit `http://localhost:3000`
 
 During registration, enter the `ADMIN_CODE` value from your `.env` file in the hidden admin field, or run the seed script which creates an admin account automatically.
 
+The following email addresses are always treated as admin accounts:
+
+- `gabyjhaddad@gmail.com`
+- `admin@pathwaytoscripture.org`
+
+The seeded admin login uses `admin@pathwaytoscripture.org` and the password you set in `SEED_ADMIN_PASSWORD` when running the seed script.
+
 ## Stripe Setup
 
 1. Create a free account at [stripe.com](https://stripe.com)
@@ -77,7 +91,7 @@ During registration, enter the `ADMIN_CODE` value from your `.env` file in the h
 
 ## Project Structure
 
-```
+```text
 ├── server.js           # Express app entry point
 ├── seed.js             # Database seeder
 ├── models/
@@ -85,6 +99,8 @@ During registration, enter the `ADMIN_CODE` value from your `.env` file in the h
 ├── routes/
 │   ├── auth.js         # Register / login / logout
 │   ├── sessions.js     # Browse Bible study sessions
+│   ├── products.js     # Store, cart, and checkout
+│   ├── legal.js        # Terms/privacy/refunds/shipping pages
 │   ├── bookings.js     # Stripe payment + booking confirmation
 │   ├── dashboard.js    # Customer dashboard & profile
 │   └── admin.js        # Admin panel
@@ -109,4 +125,3 @@ At registration, the following information is captured and stored:
 - Street address (line 1 & 2), suburb, state, postcode
 - Booking history and payment transactions
 - Account balance
-
