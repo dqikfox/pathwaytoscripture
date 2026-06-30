@@ -1,17 +1,22 @@
 <%- include('partials/header') %>
 
 <!-- Hero Section -->
-<section class="hero-section text-white text-center d-flex align-items-center">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
+<section class="hero-section text-white d-flex align-items-center">
+  <div class="container position-relative hero-shell">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-8 text-center text-lg-start">
+        <div class="hero-kicker-wrap mb-3">
+          <span class="hero-kicker">Catholic Bible Study</span>
+          <span class="hero-kicker-divider" aria-hidden="true"></span>
+          <span class="hero-kicker-sub">Scripture, prayer, and fellowship</span>
+        </div>
         <span class="hero-cross display-1">✝</span>
         <h1 class="display-4 fw-bold mt-3">Pathway to Scripture</h1>
-        <p class="lead mb-4">
+        <p class="lead mb-4 hero-copy">
           Join our guided Catholic Bible study sessions and deepen your understanding
           of God's Word in a warm, welcoming community.
         </p>
-        <div class="d-flex gap-3 justify-content-center flex-wrap">
+        <div class="d-flex gap-3 justify-content-center justify-content-lg-start flex-wrap">
           <a href="/sessions" class="btn btn-warning btn-lg fw-semibold">
             <i class="bi bi-book-half"></i> View Sessions
           </a>
@@ -25,9 +30,46 @@
             </a>
           <% } %>
         </div>
+        <div class="hero-badges mt-4 d-flex justify-content-center justify-content-lg-start flex-wrap gap-2">
+          <span class="badge hero-pill">Sacred Heart</span>
+          <span class="badge hero-pill">Rosary</span>
+          <span class="badge hero-pill">Cathedral Light</span>
+        </div>
         <p class="mt-4 hero-price">
-          <span class="badge bg-warning text-dark fs-6 px-3 py-2">$99 inc. GST per session</span>
+          <a href="/register" class="btn btn-warning btn-lg fw-semibold px-4">
+            Start Your Journey Here
+          </a>
         </p>
+      </div>
+    </div>
+
+    <div class="row g-3 hero-icons mt-4 mt-lg-5">
+      <div class="col-md-4">
+        <div class="hero-icon-card">
+          <img src="/images/retro-sacred-heart.svg" alt="Sacred Heart icon" class="hero-icon-image" />
+          <div>
+            <h3 class="hero-icon-title mb-1">Sacred Heart</h3>
+            <p class="hero-icon-copy mb-0">Christ's love at the centre of the journey.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="hero-icon-card">
+          <img src="/images/retro-rosary.svg" alt="Rosary icon" class="hero-icon-image" />
+          <div>
+            <h3 class="hero-icon-title mb-1">Rosary Devotion</h3>
+            <p class="hero-icon-copy mb-0">Prayerful rhythm and Marian contemplation.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="hero-icon-card">
+          <img src="/images/retro-cathedral-window.svg" alt="Cathedral window icon" class="hero-icon-image" />
+          <div>
+            <h3 class="hero-icon-title mb-1">Cathedral Light</h3>
+            <p class="hero-icon-copy mb-0">Scripture reflected in stained-glass splendour.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -51,6 +93,66 @@
         <div class="feature-icon mb-3"><i class="bi bi-calendar-check text-primary fs-1"></i></div>
         <h4>Flexible Scheduling</h4>
         <p class="text-muted">Book sessions that suit your schedule. View upcoming dates and secure your spot online in minutes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sacred Retro Gallery -->
+<section class="retro-gallery py-5">
+  <div class="container">
+    <div class="text-center mb-4">
+      <p class="text-uppercase retro-kicker mb-2">Catholic Heritage</p>
+      <h2 class="retro-gallery-title mb-3">Sacred Imagery in a Vintage Style</h2>
+      <p class="retro-gallery-copy mx-auto">
+        A small visual collection inspired by classic church art, warm tones, and timeless Catholic symbolism.
+      </p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-6 col-lg-4">
+        <article class="retro-frame h-100">
+          <img
+            src="/images/retro-cathedral-window.svg"
+            class="img-fluid retro-image"
+            alt="Vintage stained-glass cathedral window with a gold cross"
+            loading="lazy"
+          />
+          <div class="retro-caption-wrap">
+            <h3 class="retro-caption-title">Cathedral Light</h3>
+            <p class="retro-caption-text mb-0">A stained-glass tribute to contemplative prayer and reverence.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <article class="retro-frame h-100">
+          <img
+            src="/images/retro-sacred-heart.svg"
+            class="img-fluid retro-image"
+            alt="Retro sacred heart motif with a cross and rays"
+            loading="lazy"
+          />
+          <div class="retro-caption-wrap">
+            <h3 class="retro-caption-title">Sacred Heart</h3>
+            <p class="retro-caption-text mb-0">A classic symbol of Christ's love, rendered in a sepia palette.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <article class="retro-frame h-100">
+          <img
+            src="/images/retro-rosary.svg"
+            class="img-fluid retro-image"
+            alt="Stylized rosary beads and cross on a textured vintage background"
+            loading="lazy"
+          />
+          <div class="retro-caption-wrap">
+            <h3 class="retro-caption-title">Rosary Devotion</h3>
+            <p class="retro-caption-text mb-0">A visual nod to meditation, rhythm, and Marian tradition.</p>
+          </div>
+        </article>
       </div>
     </div>
   </div>

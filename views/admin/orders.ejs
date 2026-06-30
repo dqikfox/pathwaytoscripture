@@ -1,0 +1,58 @@
+<%- include('../partials/header') %>
+
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-md-2 mb-4">
+      <%- include('_sidebar', { active: 'orders' }) %>
+    </div>
+    <div class="col-md-10">
+      <%- include('../partials/flash') %>
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Orders</h2>
+      </div>
+
+      <div class="table-responsive card shadow-sm">
+        <table class="table table-hover mb-0 align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Order</th>
+              <th>Customer</th>
+              <th>Payment</th>
+              <th>Fulfillment</th>
+              <th class="text-end">Total</th>
+              <th>Date</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% orders.forEach(o => { %>
+              <tr>
+                <td>#<%= o.id %></td>
+                <td>
+                  <strong><%= o.customer_name %></strong><br />
+                  <small class="text-muted"><%= o.customer_email %></small>
+                </td>
+                <td>
+                  <span class="badge text-bg-<%= o.payment_status === 'paid' ? 'success' : (o.payment_status === 'failed' ? 'danger' : 'warning') %>">
+                    <%= o.payment_method %> / <%= o.payment_status %>
+                  </span>
+                </td>
+                <td><span class="badge text-bg-secondary"><%= o.fulfillment_status %></span></td>
+                <td class="text-end">$<%= (o.total_cents / 100).toFixed(2) %></td>
+                <td><%= o.created_at %></td>
+                <td class="text-end">
+                  <a href="/admin/orders/<%= o.id %>" class="btn btn-sm btn-outline-primary">View</a>
+                </td>
+              </tr>
+            <% }) %>
+            <% if (orders.length === 0) { %>
+              <tr><td colspan="7" class="text-center text-muted py-3">No orders found.</td></tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

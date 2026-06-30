@@ -1,0 +1,55 @@
+<%- include('partials/header') %>
+
+<div class="container py-5">
+  <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+    <div>
+      <p class="text-uppercase text-muted small mb-1">Catholic Store</p>
+      <h1 class="mb-1">Products & Devotional Items</h1>
+      <p class="text-muted mb-0">Add items to your cart, then checkout once when you are ready.</p>
+    </div>
+    <a href="/products/cart" class="btn btn-primary position-relative">
+      <i class="bi bi-cart3"></i> View Cart
+      <% if (cartSummary.item_count > 0) { %>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark"><%= cartSummary.item_count %></span>
+      <% } %>
+    </a>
+  </div>
+
+  <%- include('partials/flash') %>
+
+  <% if (canceled) { %>
+    <div class="alert alert-warning">Checkout was canceled. No payment was taken.</div>
+  <% } %>
+
+  <div class="row g-4">
+    <% products.forEach(product => { %>
+      <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm">
+          <img src="<%= product.image %>" class="card-img-top" alt="<%= product.name %>" style="aspect-ratio: 4 / 3; object-fit: cover;" />
+          <div class="card-body d-flex flex-column">
+            <span class="badge bg-light text-dark border mb-2 align-self-start"><%= product.category %></span>
+            <h5 class="card-title"><%= product.name %></h5>
+            <p class="card-text text-muted small"><%= product.description %></p>
+            <p class="mt-auto mb-3 fs-5 fw-bold text-primary">$<%= (product.price_cents / 100).toFixed(2) %> <small class="text-muted fs-6">inc. GST</small></p>
+
+            <form method="POST" action="/products/cart/add" class="d-grid gap-2 mt-auto">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+              <input type="hidden" name="product_id" value="<%= product.id %>" />
+              <label class="form-label small mb-1" for="qty-<%= product.id %>">Quantity</label>
+              <select class="form-select form-select-sm" id="qty-<%= product.id %>" name="quantity">
+                <% for (let i = 1; i <= 5; i++) { %>
+                  <option value="<%= i %>"><%= i %></option>
+                <% } %>
+              </select>
+              <button class="btn btn-primary mt-2" type="submit">
+                <i class="bi bi-cart-plus"></i> Add to Cart
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
