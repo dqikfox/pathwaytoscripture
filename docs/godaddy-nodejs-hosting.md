@@ -13,7 +13,7 @@ This repository is ready for GoDaddy Node.js Hosting and expects the platform to
    - `NODE_ENV=production`
    - `BASE_URL=https://your-domain.example`
    - `SESSION_SECRET=<long random value>`
-   - `SESSION_STORE=sqlite` for durable environments or `memory` for previews only
+   - `SESSION_STORE=sqlite` only when you have verified durable writable storage; use `memory` for previews or ephemeral environments
    - `TRUST_PROXY=1`
    - `APP_DATA_DIR=<durable writable path>`
    - `SQLITE_DB_PATH=<durable writable path>/pathwaytoscripture.db` (optional)

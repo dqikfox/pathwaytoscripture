@@ -12,6 +12,8 @@ const { csrfLocals, csrfProtection } = require('./middleware/csrf');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const sessionStoreDriver = (process.env.SESSION_STORE || 'sqlite').trim().toLowerCase();
+const parsedTrustProxy = Number.parseInt(process.env.TRUST_PROXY || '', 10);
+const trustProxySetting = Number.isNaN(parsedTrustProxy) ? (isProduction ? 1 : 0) : parsedTrustProxy;
 
 if (isProduction && !process.env.SESSION_SECRET) {
   throw new Error('SESSION_SECRET must be set when NODE_ENV=production');
@@ -31,7 +33,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Trust the tunnel/load balancer so rate limiting sees the client IP correctly.
-app.set('trust proxy', Number.parseInt(process.env.TRUST_PROXY || '', 10) || (isProduction ? 1 : 0));
+app.set('trust proxy', trustProxySetting);
 
 // ─── View engine ──────────────────────────────────────────────────────────────
 app.set('view engine', 'ejs');
@@ -74,7 +76,7 @@ const sessionConfig = {
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: isProduction ? 'auto' : false,
+    secure: isProduction,
     httpOnly: true,
     sameSite: 'lax',
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
