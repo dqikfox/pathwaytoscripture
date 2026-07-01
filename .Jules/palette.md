@@ -1,0 +1,3 @@
+## 2024-05-18 - Form Accessibility Pattern
+**Learning:** This app frequently relies on visual proximity for form labels instead of explicit `for`/`id` semantic links. Screen readers need these explicit bindings.
+**Action:** When updating or creating forms, explicitly link `<label for="fieldId">` and `<input id="fieldId">` to ensure screen readers associate them properly and to increase the clickable area for inputs.
