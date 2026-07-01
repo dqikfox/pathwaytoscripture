@@ -13,7 +13,7 @@ This repository is ready for GoDaddy Node.js Hosting and expects the platform to
    - `NODE_ENV=production`
    - `BASE_URL=https://your-domain.example`
    - `SESSION_SECRET=<long random value>`
-   - `SESSION_STORE=sqlite` only when you have verified durable writable storage; use `memory` for previews or ephemeral environments
+   - `SESSION_STORE=sqlite` only when you have verified durable writable storage; use `memory` for non-durable previews
    - `TRUST_PROXY=1`
    - `APP_DATA_DIR=<durable writable path>`
    - `SQLITE_DB_PATH=<durable writable path>/pathwaytoscripture.db` (optional)
@@ -62,7 +62,7 @@ This repository is ready for GoDaddy Node.js Hosting and expects the platform to
 ### Current platform risk
 
 - If GoDaddy Node.js Hosting only offers ephemeral local storage, SQLite data and SQLite-backed sessions are not durable enough for production.
-- In that case, use `SESSION_STORE=memory` only for previews and move production to a VPS or migrate persistence before launch.
+- In that case, use `SESSION_STORE=memory` only for non-durable previews and move production to a VPS or migrate persistence before launch.
 
 ## Deployment steps
 

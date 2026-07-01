@@ -44,7 +44,7 @@ Edit `.env` and set:
 
 - `SESSION_SECRET` – a long random string
 - `TRUST_PROXY=1` when running behind GoDaddy or another reverse proxy
-- `SESSION_STORE=sqlite` for normal deployments or `memory` for stateless previews
+- `SESSION_STORE=sqlite` for deployments with durable writable storage or `memory` for non-durable previews
 - `STRIPE_SECRET_KEY` – your Stripe secret key (`sk_test_...` or `sk_live_...`)
 - `STRIPE_PUBLISHABLE_KEY` – your Stripe publishable key (`pk_test_...`)
 - `BASE_URL` – the URL of your site (e.g. `https://pathwaytoscripture.org`)
@@ -99,7 +99,7 @@ This repository is compatible with GoDaddy Node.js Hosting (PaaS beta). The plat
 - `PORT` supplied by GoDaddy at runtime
 - `BASE_URL=https://pathwaytoscripture.org`
 - `SESSION_SECRET` set to a long random value
-- `SESSION_STORE=sqlite` only if your hosting provides durable writable storage; otherwise use `memory` for previews only
+- `SESSION_STORE=sqlite` only if your hosting provides durable writable storage; otherwise use `memory` for non-durable previews only
 - `TRUST_PROXY=1`
 - `APP_DATA_DIR=<durable writable path>` when local SQLite/session files must persist
 - `SQLITE_DB_PATH=<durable writable path>/pathwaytoscripture.db` if you want to pin the database file
