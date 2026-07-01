@@ -12,8 +12,8 @@ const { csrfLocals, csrfProtection } = require('./middleware/csrf');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const sessionStoreDriver = (process.env.SESSION_STORE || 'sqlite').trim().toLowerCase();
-const parsedTrustProxy = Number.parseInt(process.env.TRUST_PROXY || '', 10);
-const trustProxySetting = Number.isNaN(parsedTrustProxy) ? (isProduction ? 1 : 0) : parsedTrustProxy;
+const trustProxyNumber = Number.parseInt(process.env.TRUST_PROXY || '', 10);
+const trustProxySetting = Number.isNaN(trustProxyNumber) ? (isProduction ? 1 : 0) : trustProxyNumber;
 
 if (isProduction && !process.env.SESSION_SECRET) {
   throw new Error('SESSION_SECRET must be set when NODE_ENV=production');
@@ -85,7 +85,9 @@ const sessionConfig = {
 
 if (sessionStoreDriver === 'sqlite') {
   sessionConfig.store = new SQLiteStore({ db: 'sessions.db', dir: DATA_DIR });
-} else if (sessionStoreDriver !== 'memory') {
+} else if (sessionStoreDriver === 'memory') {
+  // Express uses its built-in in-memory store when no custom store is attached.
+} else {
   throw new Error(`Unsupported SESSION_STORE "${sessionStoreDriver}"`);
 }
 
