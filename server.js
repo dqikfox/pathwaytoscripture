@@ -12,10 +12,10 @@ const { csrfLocals, csrfProtection } = require('./middleware/csrf');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const sessionStoreDriver = (process.env.SESSION_STORE || 'sqlite').trim().toLowerCase();
-const trustProxyNumber = Number.parseInt(process.env.TRUST_PROXY || '', 10);
-let trustProxySetting = trustProxyNumber;
+const parsedTrustProxy = Number.parseInt(process.env.TRUST_PROXY || '', 10);
+let trustProxySetting = parsedTrustProxy;
 
-if (Number.isNaN(trustProxyNumber)) {
+if (Number.isNaN(parsedTrustProxy)) {
   trustProxySetting = isProduction ? 1 : 0;
 }
 
