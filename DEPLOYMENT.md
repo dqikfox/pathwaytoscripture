@@ -156,7 +156,6 @@ Point your domain to your GoDaddy hosting:
 |------|------|-------|
 | A | @ | *(your server IP)* |
 | A | www | *(your server IP)* |
-| CNAME | www | pathwaytoscripture.org |
 
 ---
 

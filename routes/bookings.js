@@ -98,7 +98,8 @@ router.get('/confirm', requireAuth, async (req, res) => {
 
     if (paymentIntent.status === 'succeeded' &&
         booking.stripe_payment_intent_id === payment_intent_id &&
-        paymentIntent.amount === booking.amount_cents) {
+        paymentIntent.amount === booking.amount_cents &&
+        booking.payment_status !== 'paid') {
       confirmBookingPaid(booking.id, req.session.userId, booking.amount_cents, payment_intent_id);
     }
     return res.redirect(`/bookings/success/${booking.id}`);
