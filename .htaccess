@@ -1,0 +1,15 @@
+# Pathway to Scripture – Apache / cPanel reverse proxy config
+# Place this file in the public_html (document root) directory on GoDaddy.
+# Requires mod_rewrite and mod_proxy to be enabled (enabled by default on
+# GoDaddy Managed WordPress / cPanel hosting with a Node.js app configured).
+
+Options -MultiViews
+RewriteEngine On
+
+# Redirect HTTP → HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Proxy all requests to the Node.js server running on port 3000.
+# Set the port to match PORT in your .env / GoDaddy Node.js App Manager.
+RewriteRule ^(.*)$ http://localhost:3000/$1 [P,L]
