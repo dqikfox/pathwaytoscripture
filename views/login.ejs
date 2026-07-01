@@ -14,13 +14,13 @@
       <form method="POST" action="/login" novalidate>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
         <div class="mb-3">
-          <label class="form-label">Email Address</label>
-          <input type="email" name="email" class="form-control"
-            value="<%= typeof old !== 'undefined' ? old.email || '' : '' %>" required autofocus />
+          <label for="email" class="form-label">Email Address</label>
+          <input id="email" type="email" name="email" class="form-control"
+            value="<%= typeof old !== 'undefined' ? old.email || '' : '' %>" required autofocus autocomplete="email" />
         </div>
         <div class="mb-3">
-          <label class="form-label">Password</label>
-          <input type="password" name="password" class="form-control" required />
+          <label for="password" class="form-label">Password</label>
+          <input id="password" type="password" name="password" class="form-control" required autocomplete="current-password" />
         </div>
         <button type="submit" class="btn btn-primary w-100 fw-semibold">
           <i class="bi bi-box-arrow-in-right"></i> Sign In
