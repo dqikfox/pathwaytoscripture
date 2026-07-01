@@ -76,6 +76,7 @@ app.use(express.json());
 
 const sessionConfig = {
   secret: process.env.SESSION_SECRET || 'default_dev_secret_change_me',
+  // Production deploys on GoDaddy and similar platforms sit behind a reverse proxy.
   proxy: isProduction,
   resave: false,
   saveUninitialized: false,

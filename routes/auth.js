@@ -4,16 +4,12 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const { body, validationResult } = require('express-validator');
 const { userQueries } = require('../models/db');
+const { parseAdminEmails } = require('../lib/admin-emails');
 
 const router = express.Router();
 const SALT_ROUNDS = 12;
 const ADMIN_CODE = process.env.ADMIN_CODE || '';
-const AUTO_ADMIN_EMAILS = new Set(
-  String(process.env.AUTO_ADMIN_EMAILS || '')
-    .split(',')
-    .map(email => email.trim().toLowerCase())
-    .filter(Boolean)
-);
+const AUTO_ADMIN_EMAILS = parseAdminEmails(process.env.AUTO_ADMIN_EMAILS);
 
 function isAutoAdminEmail(email) {
   return AUTO_ADMIN_EMAILS.has(String(email).trim().toLowerCase());

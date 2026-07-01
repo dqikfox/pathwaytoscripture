@@ -66,6 +66,8 @@ Default admin credentials (change in `.env` before running seed):
 - **Email:** `admin@pathwaytoscripture.org`
 - **Password:** `ChangeMe123!`
 
+> **Important:** never deploy with the default seed password. Set `SEED_ADMIN_PASSWORD` to a unique secret before running `npm run seed` in any shared or production environment.
+
 ### 4. Start the server
 
 ```bash
