@@ -9,14 +9,12 @@
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const { userQueries, sessionQueries } = require('./models/db');
+const { parseAdminEmails } = require('./lib/admin-emails');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const ADMIN_EMAIL = process.env.SEED_ADMIN_EMAIL || 'admin@pathwaytoscripture.org';
 const ADMIN_PASSWORD = process.env.SEED_ADMIN_PASSWORD || 'ChangeMe123!';
-const AUTO_ADMIN_EMAILS = String(process.env.AUTO_ADMIN_EMAILS || '')
-  .split(',')
-  .map(email => email.trim().toLowerCase())
-  .filter(Boolean);
+const AUTO_ADMIN_EMAILS = [...parseAdminEmails(process.env.AUTO_ADMIN_EMAILS)];
 
 async function seed() {
   if (isProduction && !process.env.SEED_ADMIN_PASSWORD) {
