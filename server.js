@@ -13,7 +13,11 @@ const { csrfLocals, csrfProtection } = require('./middleware/csrf');
 const isProduction = process.env.NODE_ENV === 'production';
 const sessionStoreDriver = (process.env.SESSION_STORE || 'sqlite').trim().toLowerCase();
 const trustProxyNumber = Number.parseInt(process.env.TRUST_PROXY || '', 10);
-const trustProxySetting = Number.isNaN(trustProxyNumber) ? (isProduction ? 1 : 0) : trustProxyNumber;
+let trustProxySetting = trustProxyNumber;
+
+if (Number.isNaN(trustProxyNumber)) {
+  trustProxySetting = isProduction ? 1 : 0;
+}
 
 if (isProduction && !process.env.SESSION_SECRET) {
   throw new Error('SESSION_SECRET must be set when NODE_ENV=production');
@@ -26,7 +30,7 @@ const DATA_DIR = process.env.APP_DATA_DIR
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
 if (isProduction && sessionStoreDriver === 'sqlite' && !process.env.APP_DATA_DIR) {
-  console.warn('[sessions] APP_DATA_DIR is not set; SQLite-backed sessions will use local disk storage.');
+  console.warn('[sessions] APP_DATA_DIR is not set; SQLite-backed sessions will use local disk storage that may not persist across restarts on ephemeral hosting.');
 }
 
 const app = express();

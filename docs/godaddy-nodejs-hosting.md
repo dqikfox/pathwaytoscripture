@@ -16,7 +16,7 @@ This repository is ready for GoDaddy Node.js Hosting and expects the platform to
    - `SESSION_STORE=sqlite` only when you have verified durable writable storage; use `memory` for non-durable previews
    - `TRUST_PROXY=1`
    - `APP_DATA_DIR=<durable writable path>`
-   - `SQLITE_DB_PATH=<durable writable path>/pathwaytoscripture.db` (optional)
+   - `SQLITE_DB_PATH=/persistent/data/pathwaytoscripture.db` (optional example)
    - `ADMIN_CODE=<secret admin registration code>`
    - `STRIPE_SECRET_KEY=<live or test secret key>`
    - `STRIPE_PUBLISHABLE_KEY=<live or test publishable key>`
