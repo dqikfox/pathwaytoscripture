@@ -11,7 +11,7 @@ const bcrypt = require('bcrypt');
 const { userQueries, sessionQueries } = require('./models/db');
 
 const ADMIN_EMAIL = process.env.SEED_ADMIN_EMAIL || 'admin@pathwaytoscripture.org';
-const ADMIN_PASSWORD = process.env.SEED_ADMIN_PASSWORD || '$@Religion3';
+const ADMIN_PASSWORD = process.env.SEED_ADMIN_PASSWORD || 'ChangeMe123!';
 const AUTO_ADMIN_EMAILS = ['gabyjhaddad@gmail.com'];
 
 async function seed() {
