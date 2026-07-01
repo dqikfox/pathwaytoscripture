@@ -11,7 +11,9 @@ const fs = require('fs');
 const { csrfLocals, csrfProtection } = require('./middleware/csrf');
 
 // Ensure data directory exists for session store
-const DATA_DIR = path.join(__dirname, 'data');
+const DATA_DIR = process.env.APP_DATA_DIR
+  ? path.resolve(process.env.APP_DATA_DIR)
+  : path.join(__dirname, 'data');
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
 const app = express();
@@ -78,6 +80,14 @@ app.use(csrfProtection);
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   next();
+});
+
+app.get('/healthz', (_req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    service: 'pathwaytoscripture',
+    time: new Date().toISOString(),
+  });
 });
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
