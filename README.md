@@ -43,10 +43,13 @@ cp .env.example .env
 Edit `.env` and set:
 
 - `SESSION_SECRET` – a long random string
+- `TRUST_PROXY=1` when running behind GoDaddy or another reverse proxy
+- `SESSION_STORE=sqlite` for normal deployments or `memory` for stateless previews
 - `STRIPE_SECRET_KEY` – your Stripe secret key (`sk_test_...` or `sk_live_...`)
 - `STRIPE_PUBLISHABLE_KEY` – your Stripe publishable key (`pk_test_...`)
 - `BASE_URL` – the URL of your site (e.g. `https://pathwaytoscripture.org`)
 - `ADMIN_CODE` – a secret code used during registration to create admin accounts
+- `AUTO_ADMIN_EMAILS` – optional comma-separated bootstrap admin emails
 - `BITCOIN_PAYMENT_LINK` – optional hosted Bitcoin checkout URL
 - `BITCOIN_ADDRESS` – optional wallet address shown on the products page
 
@@ -61,7 +64,7 @@ npm run seed
 Default admin credentials (change in `.env` before running seed):
 
 - **Email:** `admin@pathwaytoscripture.org`
-- **Password:** `$@Religion3`
+- **Password:** `ChangeMe123!`
 
 ### 4. Start the server
 
@@ -78,43 +81,51 @@ Visit `http://localhost:3000`
 3. Paste into `.env`
 4. For production, set up a webhook endpoint at `/bookings/webhook` pointing to your live domain, and add `STRIPE_WEBHOOK_SECRET` to `.env`
 
-## GoDaddy VPS Deployment
+## GoDaddy Node.js Hosting Deployment
 
-This app is designed to run on a Node.js VPS, not on a site-builder-only plan.
+This repository is compatible with GoDaddy Node.js Hosting (PaaS beta). The platform installs dependencies for you and launches the app with `npm start`, so this repository only needs a valid `package.json`, a working `start` script, and runtime configuration through environment variables.
 
-### Recommended production stack
+### Platform expectations
 
-- GoDaddy VPS running Ubuntu
-- Node.js 18+ with `npm install --production`
-- PM2 to keep the app running
-- Nginx as a reverse proxy on ports 80/443
-- Let's Encrypt SSL for `https://pathwaytoscripture.org`
+- Node.js 18+
+- `package.json` in the repository root
+- `npm start` must launch the app
+- The app must bind to `process.env.PORT`
+- Upload a single app as a ZIP file without `node_modules/`
 
 ### Environment values for production
 
 - `NODE_ENV=production`
-- `PORT=3000`
+- `PORT` supplied by GoDaddy at runtime
 - `BASE_URL=https://pathwaytoscripture.org`
 - `SESSION_SECRET` set to a long random value
-- `APP_DATA_DIR=/var/lib/pathwaytoscripture` or another writable path
-- `SQLITE_DB_PATH=/var/lib/pathwaytoscripture/pathwaytoscripture.db` if you want to pin the database file
+- `SESSION_STORE=sqlite` only if your hosting provides durable writable storage; otherwise use `memory` for previews only
+- `TRUST_PROXY=1`
+- `APP_DATA_DIR=<durable writable path>` when local SQLite/session files must persist
+- `SQLITE_DB_PATH=<durable writable path>/pathwaytoscripture.db` if you want to pin the database file
+- `AUTO_ADMIN_EMAILS` only if you intentionally want bootstrap admin emails
+- `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` only when running the seed script
 
-### Cutover checklist
+### Deployment flow
 
-1. Provision the VPS.
-2. Install Node.js, npm, and PM2.
-3. Upload or clone this repository on the server.
-4. Create the writable data directory and set the env vars above.
-5. Run `npm install` and `npm run seed` once if you need the initial data.
-6. Start the app with PM2 using `npm start`.
-7. Put Nginx in front of the app and map `pathwaytoscripture.org` and `www.pathwaytoscripture.org` to `127.0.0.1:3000`.
-8. Install SSL and enable auto-renew.
-9. Update Stripe live webhook URLs to the production domain.
-10. Verify home page, login, bookings, products, checkout, and admin access.
+1. Create a deploy ZIP from the repository root and exclude `node_modules`, `.env`, `data`, and local database files.
+2. Upload the ZIP to GoDaddy Node.js Hosting.
+3. Set the production environment variables in the GoDaddy dashboard.
+4. Publish the preview deployment once the app boots successfully.
+5. Connect the production domain and `www` alias in the GoDaddy UI.
+6. If you need starter data, run `npm run seed` with explicit `SEED_ADMIN_PASSWORD` before launch.
+7. Update Stripe webhook URLs to `https://your-domain.example/bookings/webhook`.
+8. Verify `/healthz`, home page, login, bookings, products, checkout, and admin access.
+
+### Important storage warning
+
+This app stores business data in SQLite and, by default, stores sessions on SQLite-backed local disk. If your GoDaddy Node.js Hosting environment does not provide durable writable storage across restarts and redeploys, use a VPS instead or plan a follow-up migration away from local SQLite before production launch.
 
 ### GoDaddy hosting note
 
-If your GoDaddy plan is a website builder or managed site plan, it will not run this Express app directly. You need a VPS or another Node-capable host.
+This Express app will not run on GoDaddy Website Builder or static-only hosting. Use GoDaddy Node.js Hosting or another Node-capable environment.
+
+See [`docs/godaddy-nodejs-hosting.md`](docs/godaddy-nodejs-hosting.md) for the full deployment checklist and launch-readiness review.
 
 ## Project Structure
 

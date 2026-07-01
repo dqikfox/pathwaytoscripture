@@ -8,10 +8,12 @@ const { userQueries } = require('../models/db');
 const router = express.Router();
 const SALT_ROUNDS = 12;
 const ADMIN_CODE = process.env.ADMIN_CODE || '';
-const AUTO_ADMIN_EMAILS = new Set([
-  'gabyjhaddad@gmail.com',
-  'admin@pathwaytoscripture.org',
-]);
+const AUTO_ADMIN_EMAILS = new Set(
+  String(process.env.AUTO_ADMIN_EMAILS || '')
+    .split(',')
+    .map(email => email.trim().toLowerCase())
+    .filter(Boolean)
+);
 
 function isAutoAdminEmail(email) {
   return AUTO_ADMIN_EMAILS.has(String(email).trim().toLowerCase());

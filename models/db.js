@@ -14,6 +14,11 @@ if (!fs.existsSync(DATA_DIR)) {
 const DB_PATH = process.env.SQLITE_DB_PATH
   ? path.resolve(process.env.SQLITE_DB_PATH)
   : path.join(DATA_DIR, 'pathwaytoscripture.db');
+
+if (process.env.NODE_ENV === 'production' && !process.env.SQLITE_DB_PATH && !process.env.APP_DATA_DIR) {
+  console.warn('[database] Using default local SQLite storage in production. Configure SQLITE_DB_PATH or APP_DATA_DIR for durable hosting.');
+}
+
 const db = new Database(DB_PATH);
 
 // Enable WAL mode for better performance
