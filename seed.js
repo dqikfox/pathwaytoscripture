@@ -12,9 +12,16 @@ const { userQueries, sessionQueries } = require('./models/db');
 
 const ADMIN_EMAIL = process.env.SEED_ADMIN_EMAIL || 'admin@pathwaytoscripture.org';
 const ADMIN_PASSWORD = process.env.SEED_ADMIN_PASSWORD || 'ChangeMe123!';
-const AUTO_ADMIN_EMAILS = ['gabyjhaddad@gmail.com'];
+const AUTO_ADMIN_EMAILS = String(process.env.AUTO_ADMIN_EMAILS || '')
+  .split(',')
+  .map(email => email.trim().toLowerCase())
+  .filter(Boolean);
 
 async function seed() {
+  if (process.env.NODE_ENV === 'production' && !process.env.SEED_ADMIN_PASSWORD) {
+    throw new Error('SEED_ADMIN_PASSWORD must be set when running the seed in production');
+  }
+
   // ── Admin account ──────────────────────────────────────────────────
   const existing = userQueries.findByEmail.get(ADMIN_EMAIL);
   const hash = await bcrypt.hash(ADMIN_PASSWORD, 12);

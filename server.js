@@ -10,17 +10,28 @@ const rateLimit = require('express-rate-limit');
 const fs = require('fs');
 const { csrfLocals, csrfProtection } = require('./middleware/csrf');
 
+const isProduction = process.env.NODE_ENV === 'production';
+const sessionStoreDriver = (process.env.SESSION_STORE || 'sqlite').trim().toLowerCase();
+
+if (isProduction && !process.env.SESSION_SECRET) {
+  throw new Error('SESSION_SECRET must be set when NODE_ENV=production');
+}
+
 // Ensure data directory exists for session store
 const DATA_DIR = process.env.APP_DATA_DIR
   ? path.resolve(process.env.APP_DATA_DIR)
   : path.join(__dirname, 'data');
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
+if (isProduction && sessionStoreDriver === 'sqlite' && !process.env.APP_DATA_DIR) {
+  console.warn('[sessions] APP_DATA_DIR is not set; SQLite-backed sessions will use local disk storage.');
+}
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Trust the tunnel/load balancer so rate limiting sees the client IP correctly.
-app.set('trust proxy', 1);
+app.set('trust proxy', Number.parseInt(process.env.TRUST_PROXY || '', 10) || (isProduction ? 1 : 0));
 
 // ─── View engine ──────────────────────────────────────────────────────────────
 app.set('view engine', 'ejs');
@@ -57,18 +68,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use(session({
-  store: new SQLiteStore({ db: 'sessions.db', dir: DATA_DIR }),
+const sessionConfig = {
   secret: process.env.SESSION_SECRET || 'default_dev_secret_change_me',
+  proxy: isProduction,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
+    secure: isProduction ? 'auto' : false,
     httpOnly: true,
     sameSite: 'lax',
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   },
-}));
+};
+
+if (sessionStoreDriver === 'sqlite') {
+  sessionConfig.store = new SQLiteStore({ db: 'sessions.db', dir: DATA_DIR });
+} else if (sessionStoreDriver !== 'memory') {
+  throw new Error(`Unsupported SESSION_STORE "${sessionStoreDriver}"`);
+}
+
+app.use(session(sessionConfig));
 
 // CSRF token injection (must come after session)
 app.use(csrfLocals);
