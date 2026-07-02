@@ -1,0 +1,324 @@
+/* ── Pathway to Scripture – Custom Styles ─────────────────────────── */
+
+/* Override Bootstrap primary with a deeper navy/blue fitting Catholic aesthetic */
+:root {
+  --bs-primary: #1a3a5c;
+  --bs-primary-rgb: 26, 58, 92;
+  --pts-gold: #c9a84c;
+  --pts-gold-light: #f5d78b;
+  --pts-navy: #1a3a5c;
+  --pts-cream: #f2e6cc;
+  --pts-brown: #5a3f2d;
+  --pts-burgundy: #6d2f2f;
+}
+
+/* Fonts */
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: #2d2d2d;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Playfair Display', serif;
+}
+
+.hero-logo { max-width: 360px; width: min(360px, 70vw); height: auto; margin-bottom: 0.5rem; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.35)); }
+
+/* ── Navbar ──────────────────────────────────────────────────────────── */
+.navbar.bg-primary {
+  background-color: var(--pts-navy) !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,.25);
+}
+
+.brand-cross {
+  font-size: 1.5rem;
+  color: var(--pts-gold);
+}
+
+.brand-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.brand-text .text-warning {
+  color: var(--pts-gold) !important;
+}
+
+/* ── Hero Section ────────────────────────────────────────────────────── */
+.hero-section {
+  background: url('/images/watermark.png') center center / cover no-repeat;
+  min-height: 520px;
+  padding: 5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(26, 58, 92, 0.82) 0%, rgba(26, 58, 92, 0.62) 50%, rgba(26, 58, 92, 0.78) 100%);
+  pointer-events: none;
+}
+
+.hero-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.07) 0%, transparent 32%),
+    radial-gradient(circle at 82% 16%, rgba(201, 168, 76, 0.13) 0%, transparent 30%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' opacity='0.04'%3E%3Ctext y='48' font-size='48'%3E✝%3C/text%3E%3C/svg%3E") repeat;
+  pointer-events: none;
+}
+
+.hero-shell {
+  z-index: 1;
+}
+
+.hero-kicker-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(242, 230, 204, 0.12);
+  border: 1px solid rgba(245, 215, 139, 0.32);
+  backdrop-filter: blur(6px);
+}
+
+.hero-kicker {
+  letter-spacing: 0.16rem;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--pts-gold-light);
+}
+
+.hero-kicker-divider {
+  width: 1px;
+  align-self: stretch;
+  background: rgba(245, 215, 139, 0.4);
+}
+
+.hero-kicker-sub {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.hero-shell .row:first-child,
+.hero-icons {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-icon-card {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.9rem 1rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(245, 215, 139, 0.22);
+  backdrop-filter: blur(6px);
+}
+
+.hero-icon-image {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 14px;
+  flex: 0 0 auto;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+.hero-icon-title {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.hero-icon-copy {
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+/* ── Retro Sacred Gallery ───────────────────────────────────────────── */
+.retro-gallery {
+  background:
+    linear-gradient(145deg, #f7edd9 0%, #e9d6b0 50%, #f3e8d1 100%);
+  position: relative;
+}
+
+.retro-gallery::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 20% 20%, rgba(109, 47, 47, 0.09) 0%, transparent 40%),
+              radial-gradient(circle at 80% 80%, rgba(26, 58, 92, 0.08) 0%, transparent 35%);
+}
+
+.retro-gallery .container {
+  position: relative;
+  z-index: 1;
+}
+
+.retro-kicker {
+  letter-spacing: 0.18rem;
+  font-size: 0.78rem;
+  color: var(--pts-burgundy);
+  font-weight: 700;
+}
+
+.retro-gallery-title {
+  color: #38261a;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.retro-gallery-copy {
+  max-width: 680px;
+  color: #5b4738;
+}
+
+.retro-frame {
+  background: #f4ead5;
+  border: 1px solid #caa772;
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(56, 38, 26, 0.2), inset 0 0 0 2px rgba(255, 255, 255, 0.55);
+  overflow: hidden;
+  transform: rotate(-1deg);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.retro-frame:hover {
+  transform: rotate(0deg) translateY(-4px);
+  box-shadow: 0 18px 32px rgba(56, 38, 26, 0.25), inset 0 0 0 2px rgba(255, 255, 255, 0.65);
+}
+
+.retro-frame .retro-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  filter: sepia(0.45) saturate(1.05) contrast(1.08);
+  border-bottom: 1px solid rgba(90, 63, 45, 0.28);
+}
+
+.retro-caption-wrap {
+  padding: 1rem 1rem 1.15rem;
+}
+
+.retro-caption-title {
+  margin: 0 0 0.35rem;
+  color: var(--pts-burgundy);
+  font-size: 1.24rem;
+}
+
+.retro-caption-text {
+  color: #5a4738;
+  font-size: 0.95rem;
+}
+
+.retro-gallery .col-lg-4:nth-child(2) .retro-frame {
+  transform: rotate(1deg);
+}
+
+.retro-gallery .col-lg-4:nth-child(3) .retro-frame {
+  transform: rotate(-0.4deg);
+}
+
+@media (max-width: 991.98px) {
+  .retro-gallery .col-lg-4 .retro-frame,
+  .retro-gallery .col-lg-4:nth-child(2) .retro-frame,
+  .retro-gallery .col-lg-4:nth-child(3) .retro-frame {
+    transform: none;
+  }
+}
+
+/* ── Section Titles ──────────────────────────────────────────────────── */
+.section-title {
+  color: var(--pts-navy);
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: var(--pts-gold);
+  margin-top: 0.4rem;
+}
+
+/* ── Session Cards ───────────────────────────────────────────────────── */
+.session-card {
+  border: none;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.session-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.12) !important;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────── */
+.btn-primary {
+  background-color: var(--pts-navy);
+  border-color: var(--pts-navy);
+}
+.btn-primary:hover, .btn-primary:focus {
+  background-color: #14304e;
+  border-color: #14304e;
+}
+
+.btn-warning {
+  background-color: var(--pts-gold);
+  border-color: var(--pts-gold);
+  color: #fff;
+}
+.btn-warning:hover {
+  background-color: #b8952e;
+  border-color: #b8952e;
+  color: #fff;
+}
+
+.btn-outline-primary {
+  color: var(--pts-navy);
+  border-color: var(--pts-navy);
+}
+.btn-outline-primary:hover {
+  background-color: var(--pts-navy);
+  color: #fff;
+}
+
+/* ── Forms ───────────────────────────────────────────────────────────── */
+.form-control:focus, .form-select:focus {
+  border-color: var(--pts-navy);
+  box-shadow: 0 0 0 .2rem rgba(26, 58, 92, .15);
+}
+
+/* ── Dashboard sidebar ───────────────────────────────────────────────── */
+.list-group-item-action.active {
+  background-color: var(--pts-navy);
+  border-color: var(--pts-navy);
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────── */
+footer.bg-primary {
+  background-color: var(--pts-navy) !important;
+}
+
+/* ── Tables ──────────────────────────────────────────────────────────── */
+.table > thead {
+  border-bottom: 2px solid var(--pts-navy);
+}
+
+/* ── Badge override ──────────────────────────────────────────────────── */
+.badge.bg-primary {
+  background-color: var(--pts-navy) !important;
+}
