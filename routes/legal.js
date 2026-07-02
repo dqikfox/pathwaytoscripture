@@ -5,55 +5,12 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/terms', (_req, res) => {
-  res.render('legal-page', {
-    title: 'Terms of Use',
-    heading: 'Terms of Use',
-    updatedAt: '30 June 2026',
-    sections: [
-      {
-        title: 'Use of Our Services',
-        body: 'By using this website, you agree to use it lawfully and respectfully. You are responsible for maintaining the confidentiality of your account details and for all activities under your account.',
-      },
-      {
-        title: 'Orders and Payments',
-        body: 'All prices are listed in AUD unless otherwise stated. Payments must be completed before order fulfillment. We reserve the right to cancel or refuse orders where fraud, error, or policy breaches are detected.',
-      },
-      {
-        title: 'Content and Intellectual Property',
-        body: 'All site content, including text, graphics, and materials, remains the property of Pathway to Scripture or its licensors unless otherwise indicated. You may not reproduce or redistribute content without permission.',
-      },
-      {
-        title: 'Limitation of Liability',
-        body: 'To the maximum extent permitted by law, we are not liable for indirect, incidental, or consequential damages arising from your use of this website or products purchased through it.',
-      },
-    ],
-  });
+  res.render('terms', { title: 'Terms & Conditions' });
 });
 
 router.get('/privacy', (_req, res) => {
-  res.render('legal-page', {
-    title: 'Privacy Policy',
-    heading: 'Privacy Policy',
-    updatedAt: '30 June 2026',
-    sections: [
-      {
-        title: 'Information We Collect',
-        body: 'We collect personal information needed to provide services, including account details, booking information, and purchase details. Payment card data is processed by our payment providers and not stored directly by us.',
-      },
-      {
-        title: 'How We Use Information',
-        body: 'We use personal information to process orders, communicate with you, improve our services, and meet legal obligations. We do not sell your personal data.',
-      },
-      {
-        title: 'Data Storage and Security',
-        body: 'We implement reasonable technical and organizational safeguards to protect your information. While no method is perfectly secure, we work to prevent unauthorized access and misuse.',
-      },
-      {
-        title: 'Your Rights',
-        body: 'You may request access to, correction of, or deletion of your personal information, subject to legal and operational requirements. Contact us through our support channels for assistance.',
-      },
-    ],
-  });
+  // NOTE: Assumes a 'privacy.ejs' view exists.
+  res.render('privacy', { title: 'Privacy Policy' });
 });
 
 router.get('/refunds', (_req, res) => {
