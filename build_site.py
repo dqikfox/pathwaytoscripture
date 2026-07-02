@@ -25,12 +25,26 @@ BASE_TEMPLATE = """<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="{{META}}">
   <title>{{TITLE}} – Pathway to Scripture</title>
+  <link rel="canonical" href="{{CANONICAL}}">
+  <meta property="og:title" content="{{TITLE}} – Pathway to Scripture">
+  <meta property="og:description" content="{{META}}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{CANONICAL}}">
+  <meta property="og:image" content="https://pathwaytoscripture.org/images/pw2s-logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{TITLE}} – Pathway to Scripture">
+  <meta name="twitter:description" content="{{META}}">
+  <meta name="twitter:image" content="https://pathwaytoscripture.org/images/pw2s-logo.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/images/pw2s-logo.png">
+  <meta name="theme-color" content="#1a3a5c">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Open+Sans:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
+  {{JSONLD}}
   <style>
     :root { --font-display: 'Cinzel', 'Playfair Display', serif; --font-body: 'Open Sans', sans-serif; }
     body { font-family: var(--font-body); }
@@ -325,12 +339,56 @@ CONTENT = {
 }
 
 # Generate pages
+CANONICAL_BASE = "https://pathwaytoscripture.org"
+ORG_JSONLD = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Pathway to Scripture",
+    "url": CANONICAL_BASE,
+    "logo": f"{CANONICAL_BASE}/images/pw2s-logo.png",
+    "description": "Guided Catholic Bible study sessions blending Scripture, prayer, and fellowship.",
+    "email": "info@pathwaytoscripture.org",
+    "telephone": "+61493993301",
+    "sameAs": [
+        "https://instagram.com/pathway2scripture",
+        "https://instagram.com/Haddadempire",
+        "https://gofund.me/6cf919b9e"
+    ]
+}
+
 for fname, meta in PAGES.items():
+    jsonld = ORG_JSONLD.copy()
+    jsonld["@type"] = "WebPage"
+    jsonld["@id"] = f"{CANONICAL_BASE}/{fname}"
+    jsonld["isPartOf"] = {"@id": CANONICAL_BASE}
+    jsonld_block = f'<script type="application/ld+json">{json.dumps(jsonld, indent=2)}</script>'
     html = (BASE_TEMPLATE
             .replace("{{TITLE}}", meta["title"])
             .replace("{{META}}", meta["meta"])
+            .replace("{{CANONICAL}}", f"{CANONICAL_BASE}/{fname}")
+            .replace("{{JSONLD}}", jsonld_block)
             .replace("{{CONTENT}}", CONTENT[fname]))
     (OUT / fname).write_text(html, encoding="utf-8")
+
+# Create manifest.json, robots.txt, and sitemap.xml
+(OUT / "manifest.json").write_text(json.dumps({
+    "name": "Pathway to Scripture",
+    "short_name": "Pathway",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#1a3a5c",
+    "theme_color": "#1a3a5c",
+    "icons": [{"src": "/images/pw2s-logo.png", "sizes": "192x192", "type": "image/png"}]
+}, indent=2), encoding="utf-8")
+
+(OUT / "robots.txt").write_text(
+    "User-agent: *\nAllow: /\nSitemap: https://pathwaytoscripture.org/sitemap.xml\n",
+    encoding="utf-8")
+
+urls = "\n".join([f"<url><loc>{CANONICAL_BASE}/{p}</loc><lastmod>2026-07-03</lastmod></url>" for p in PAGES])
+(OUT / "sitemap.xml").write_text(
+    f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>',
+    encoding="utf-8")
 
 # Create ZIP
 ZIP = BASE / "godaddy-html-deploy.zip"
