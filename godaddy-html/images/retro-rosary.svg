@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="Retro rosary beads and cross">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#e9d8b8"/>
+      <stop offset="100%" stop-color="#ceb188"/>
+    </linearGradient>
+    <linearGradient id="wood" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#8a5b33"/>
+      <stop offset="100%" stop-color="#5f3d22"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="900" fill="url(#bg)"/>
+  <rect x="90" y="70" width="1020" height="760" rx="24" fill="none" stroke="#8e6639" stroke-width="16"/>
+
+  <g opacity="0.35" stroke="#9b764f" stroke-width="3">
+    <path d="M120 780 C300 720 900 720 1080 780" fill="none"/>
+    <path d="M120 160 C300 220 900 220 1080 160" fill="none"/>
+  </g>
+
+  <path d="M330 300
+           C280 370 300 490 380 555
+           C455 618 575 634 662 590
+           C760 540 815 452 792 367
+           C768 280 660 237 568 250
+           C486 262 386 280 330 300Z"
+        fill="none" stroke="#6d4a2a" stroke-width="14"/>
+
+  <g fill="url(#wood)" stroke="#4f331c" stroke-width="6">
+    <circle cx="345" cy="320" r="24"/>
+    <circle cx="305" cy="382" r="22"/>
+    <circle cx="308" cy="455" r="22"/>
+    <circle cx="350" cy="520" r="24"/>
+    <circle cx="420" cy="575" r="25"/>
+    <circle cx="500" cy="610" r="24"/>
+    <circle cx="585" cy="615" r="24"/>
+    <circle cx="662" cy="590" r="23"/>
+    <circle cx="725" cy="542" r="23"/>
+    <circle cx="768" cy="478" r="23"/>
+    <circle cx="790" cy="406" r="23"/>
+    <circle cx="776" cy="338" r="22"/>
+    <circle cx="734" cy="286" r="22"/>
+    <circle cx="668" cy="254" r="23"/>
+    <circle cx="595" cy="246" r="22"/>
+    <circle cx="522" cy="254" r="22"/>
+    <circle cx="452" cy="273" r="22"/>
+  </g>
+
+  <path d="M662 590 C690 650 705 705 700 748" fill="none" stroke="#6d4a2a" stroke-width="14"/>
+  <circle cx="698" cy="770" r="24" fill="url(#wood)" stroke="#4f331c" stroke-width="6"/>
+
+  <g transform="translate(690 795)" fill="#d8b46f" stroke="#6f4d28" stroke-width="10">
+    <rect x="-20" y="0" width="40" height="145" rx="6"/>
+    <rect x="-78" y="48" width="156" height="40" rx="6"/>
+  </g>
+</svg>
