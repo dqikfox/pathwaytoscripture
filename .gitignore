@@ -5,3 +5,7 @@ data/
 *.db-shm
 *.db-wal
 .node20/
+.vscode/
+Assets/
+*.zip
+_deploy/
