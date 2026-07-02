@@ -108,6 +108,11 @@ app.get('/contact', (req, res) => {
   delete req.session.flash;
 });
 
+// Terms & Conditions page
+app.get('/terms', (req, res) => {
+  res.render('terms', { title: 'Terms & Conditions' });
+});
+
 // 404 handler
 app.use((req, res) => {
   res.status(404).render('error', {
