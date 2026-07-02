@@ -354,24 +354,27 @@ const orderItemQueries = {
  * Confirm a booking as paid (runs in a transaction).
  */
 const confirmBookingPaid = db.transaction((bookingId, userId, amountCents, paymentIntentId) => {
-  bookingQueries.updateStatus.run({
-    id: bookingId,
-    status: 'confirmed',
-    payment_status: 'paid',
-  });
-
   const booking = bookingQueries.findById.get(bookingId);
-  sessionQueries.incrementSpots.run(booking.session_id);
 
-  transactionQueries.create.run({
-    user_id: userId,
-    booking_id: bookingId,
-    type: 'payment',
-    amount_cents: amountCents,
-    description: 'Bible study session booking',
-    stripe_payment_intent_id: paymentIntentId,
-    status: 'completed',
-  });
+  if (booking && booking.payment_status !== 'paid') {
+    bookingQueries.updateStatus.run({
+      id: bookingId,
+      status: 'confirmed',
+      payment_status: 'paid',
+    });
+
+    sessionQueries.incrementSpots.run(booking.session_id);
+
+    transactionQueries.create.run({
+      user_id: userId,
+      booking_id: bookingId,
+      type: 'payment',
+      amount_cents: amountCents,
+      description: 'Bible study session booking',
+      stripe_payment_intent_id: paymentIntentId,
+      status: 'completed',
+    });
+  }
 });
 
 module.exports = {
