@@ -11,11 +11,16 @@ const fs = require('fs');
 const { csrfLocals, csrfProtection } = require('./middleware/csrf');
 
 // Ensure data directory exists for session store
-const DATA_DIR = path.join(__dirname, 'data');
+const DATA_DIR = process.env.APP_DATA_DIR
+  ? path.resolve(process.env.APP_DATA_DIR)
+  : path.join(__dirname, 'data');
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Trust the tunnel/load balancer so rate limiting sees the client IP correctly.
+app.set('trust proxy', 1);
 
 // ─── View engine ──────────────────────────────────────────────────────────────
 app.set('view engine', 'ejs');
@@ -77,9 +82,19 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get('/healthz', (_req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    service: 'pathwaytoscripture',
+    time: new Date().toISOString(),
+  });
+});
+
 // ─── Routes ───────────────────────────────────────────────────────────────────
 app.use('/', require('./routes/auth'));
 app.use('/sessions', require('./routes/sessions'));
+app.use('/products', require('./routes/products'));
+app.use('/legal', require('./routes/legal'));
 app.use('/bookings', require('./routes/bookings'));
 app.use('/dashboard', require('./routes/dashboard'));
 app.use('/admin', require('./routes/admin'));

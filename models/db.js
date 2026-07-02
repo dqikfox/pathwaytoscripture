@@ -4,12 +4,16 @@ const Database = require('better-sqlite3');
 const path = require('path');
 const fs = require('fs');
 
-const DATA_DIR = path.join(__dirname, '..', 'data');
+const DATA_DIR = process.env.APP_DATA_DIR
+  ? path.resolve(process.env.APP_DATA_DIR)
+  : path.join(__dirname, '..', 'data');
 if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
-const DB_PATH = path.join(DATA_DIR, 'pathwaytoscripture.db');
+const DB_PATH = process.env.SQLITE_DB_PATH
+  ? path.resolve(process.env.SQLITE_DB_PATH)
+  : path.join(DATA_DIR, 'pathwaytoscripture.db');
 const db = new Database(DB_PATH);
 
 // Enable WAL mode for better performance
@@ -79,6 +83,45 @@ db.exec(`
     status          TEXT NOT NULL DEFAULT 'completed',
     created_at      TEXT NOT NULL DEFAULT (datetime('now'))
   );
+
+  CREATE TABLE IF NOT EXISTS orders (
+    id                       INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id                  INTEGER REFERENCES users(id),
+    customer_name            TEXT NOT NULL,
+    customer_email           TEXT NOT NULL,
+    customer_phone           TEXT,
+    address_line1            TEXT,
+    address_line2            TEXT,
+    suburb                   TEXT,
+    state                    TEXT,
+    postcode                 TEXT,
+    country                  TEXT DEFAULT 'Australia',
+    payment_method           TEXT NOT NULL,
+    payment_status           TEXT NOT NULL DEFAULT 'pending',
+    fulfillment_status       TEXT NOT NULL DEFAULT 'processing',
+    currency                 TEXT NOT NULL DEFAULT 'aud',
+    subtotal_cents           INTEGER NOT NULL,
+    tax_cents                INTEGER NOT NULL DEFAULT 0,
+    shipping_cents           INTEGER NOT NULL DEFAULT 0,
+    total_cents              INTEGER NOT NULL,
+    stripe_checkout_session_id TEXT UNIQUE,
+    terms_version            TEXT NOT NULL,
+    terms_accepted_at        TEXT NOT NULL,
+    notes                    TEXT,
+    created_at               TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at               TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS order_items (
+    id                       INTEGER PRIMARY KEY AUTOINCREMENT,
+    order_id                 INTEGER NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+    product_id               TEXT NOT NULL,
+    sku                      TEXT,
+    product_name             TEXT NOT NULL,
+    unit_price_cents         INTEGER NOT NULL,
+    quantity                 INTEGER NOT NULL,
+    line_total_cents         INTEGER NOT NULL
+  );
 `);
 
 // ─── User queries ─────────────────────────────────────────────────────────────
@@ -107,6 +150,16 @@ const userQueries = {
   updateBalance: db.prepare(`
     UPDATE users SET account_balance = account_balance + @delta,
       updated_at = datetime('now')
+    WHERE id = @id
+  `),
+
+  updateRole: db.prepare(`
+    UPDATE users SET role = @role, updated_at = datetime('now')
+    WHERE id = @id
+  `),
+
+  updatePassword: db.prepare(`
+    UPDATE users SET password_hash = @password_hash, updated_at = datetime('now')
     WHERE id = @id
   `),
 
@@ -233,6 +286,68 @@ const transactionQueries = {
   `),
 };
 
+// ─── Order queries ───────────────────────────────────────────────────────────
+
+const orderQueries = {
+  create: db.prepare(`
+    INSERT INTO orders (
+      user_id, customer_name, customer_email, customer_phone,
+      address_line1, address_line2, suburb, state, postcode, country,
+      payment_method, payment_status, fulfillment_status, currency,
+      subtotal_cents, tax_cents, shipping_cents, total_cents,
+      stripe_checkout_session_id, terms_version, terms_accepted_at, notes
+    ) VALUES (
+      @user_id, @customer_name, @customer_email, @customer_phone,
+      @address_line1, @address_line2, @suburb, @state, @postcode, @country,
+      @payment_method, @payment_status, @fulfillment_status, @currency,
+      @subtotal_cents, @tax_cents, @shipping_cents, @total_cents,
+      @stripe_checkout_session_id, @terms_version, @terms_accepted_at, @notes
+    )
+  `),
+
+  findById: db.prepare(`SELECT * FROM orders WHERE id = ?`),
+
+  findByStripeSession: db.prepare(`
+    SELECT * FROM orders WHERE stripe_checkout_session_id = ?
+  `),
+
+  byUser: db.prepare(`
+    SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC
+  `),
+
+  all: db.prepare(`
+    SELECT o.*, u.first_name, u.last_name
+    FROM orders o
+    LEFT JOIN users u ON u.id = o.user_id
+    ORDER BY o.created_at DESC
+    LIMIT 200
+  `),
+
+  updateStatuses: db.prepare(`
+    UPDATE orders SET
+      payment_status = @payment_status,
+      fulfillment_status = @fulfillment_status,
+      updated_at = datetime('now')
+    WHERE id = @id
+  `),
+};
+
+const orderItemQueries = {
+  create: db.prepare(`
+    INSERT INTO order_items (
+      order_id, product_id, sku, product_name,
+      unit_price_cents, quantity, line_total_cents
+    ) VALUES (
+      @order_id, @product_id, @sku, @product_name,
+      @unit_price_cents, @quantity, @line_total_cents
+    )
+  `),
+
+  byOrder: db.prepare(`
+    SELECT * FROM order_items WHERE order_id = ? ORDER BY id ASC
+  `),
+};
+
 // ─── Compound operations ──────────────────────────────────────────────────────
 
 /**
@@ -265,5 +380,7 @@ module.exports = {
   sessionQueries,
   bookingQueries,
   transactionQueries,
+  orderQueries,
+  orderItemQueries,
   confirmBookingPaid,
 };
