@@ -1,0 +1,19 @@
+<%- include('partials/header') %>
+
+<div class="container py-5" style="max-width: 920px;">
+  <h1 class="mb-1"><%= heading %></h1>
+  <p class="text-muted mb-4">Last updated: <%= updatedAt %></p>
+
+  <div class="card shadow-sm">
+    <div class="card-body p-4">
+      <% sections.forEach(section => { %>
+        <section class="mb-4">
+          <h5><%= section.title %></h5>
+          <p class="mb-0"><%= section.body %></p>
+        </section>
+      <% }) %>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

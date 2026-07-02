@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Pathway to Scripture - Catholic Bible studies, prayer, and fellowship." />
+  <title>Pathway to Scripture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    :root {
+      --navy: #1a3a5c;
+      --navy-2: #2e6095;
+      --gold: #c9a84c;
+      --gold-light: #f5d78b;
+      --cream: #f2e6cc;
+      --burgundy: #6d2f2f;
+      --brown: #5a3f2d;
+      --sand: #f7edd9;
+      --text: #203040;
+      --muted: #5c6b79;
+      --card: #fffaf1;
+      --shadow: 0 20px 50px rgba(18, 35, 56, 0.16);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #fffdf9 0%, #f8f2e5 100%);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; }
+    .container { width: min(1160px, calc(100% - 2rem)); margin: 0 auto; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+      padding: 0.95rem 1.35rem; border-radius: 999px; text-decoration: none;
+      font-weight: 700; border: 1px solid transparent; transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+      cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(0,0,0,.12); }
+    .btn-primary { background: var(--gold); color: #23190f; }
+    .btn-secondary { background: transparent; color: #fff; border-color: rgba(255,255,255,.75); }
+    .btn-outline { background: transparent; color: var(--navy); border-color: rgba(26,58,92,.18); }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(26,58,92,.95); backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 0;
+    }
+    .brand {
+      display: inline-flex; align-items: center; gap: .75rem; text-decoration: none; color: #fff;
+      font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600;
+    }
+    .brand-mark {
+      width: 2.25rem; height: 2.25rem; border-radius: 50%; display: grid; place-items: center;
+      background: rgba(245,215,139,.16); border: 1px solid rgba(245,215,139,.35);
+      color: var(--gold-light);
+    }
+    .nav-links { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .nav-links a {
+      color: rgba(255,255,255,.9); text-decoration: none; font-weight: 600; font-size: .95rem;
+    }
+    .nav-links a:hover { color: #fff; }
+
+    .hero {
+      position: relative; overflow: hidden; color: #fff;
+      background: linear-gradient(135deg, #1a3a5c 0%, #2e6095 60%, #1a5276 100%);
+      min-height: 78vh; display: flex; align-items: center;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.08) 0%, transparent 30%),
+        radial-gradient(circle at 82% 16%, rgba(201,168,76,.12) 0%, transparent 28%);
+    }
+    .hero::after {
+      content: ''; position: absolute; inset: 0;
+      background-image: url('/images/coat-of-arms.png');
+      background-size: cover; background-position: center; opacity: .14; pointer-events: none;
+      mix-blend-mode: screen;
+    }
+    .hero-inner { position: relative; z-index: 1; padding: 4.5rem 0 3rem; }
+    .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 2rem; align-items: center; }
+    .pill-row {
+      display: inline-flex; align-items: center; gap: .75rem; padding: .55rem 1rem;
+      border-radius: 999px; background: rgba(242,230,204,.12); border: 1px solid rgba(245,215,139,.28);
+      backdrop-filter: blur(8px); font-size: .9rem;
+    }
+    .pill-row span { color: rgba(255,255,255,.9); }
+    .kicker { letter-spacing: .18rem; text-transform: uppercase; color: var(--gold-light); font-weight: 700; font-size: .78rem; }
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; margin: 0; }
+    h1 { font-size: clamp(3rem, 7vw, 5rem); line-height: 1.05; margin-top: 1rem; }
+    .lead {
+      font-size: 1.12rem; color: rgba(255,255,255,.88); max-width: 58rem; margin: 1.25rem 0 0;
+    }
+    .hero-actions { display: flex; gap: .9rem; flex-wrap: wrap; margin-top: 1.6rem; }
+    .badge-row { display: flex; gap: .55rem; flex-wrap: wrap; margin-top: 1.4rem; }
+    .badge {
+      display: inline-flex; align-items: center; border-radius: 999px; padding: .4rem .75rem;
+      background: rgba(255,255,255,.12); border: 1px solid rgba(245,215,139,.26); color: #fff; font-size: .85rem;
+    }
+
+    .hero-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem; }
+    .info-card {
+      display: flex; align-items: center; gap: .9rem; padding: 1rem 1.05rem; border-radius: 18px;
+      background: rgba(255,255,255,.12); border: 1px solid rgba(245,215,139,.2); backdrop-filter: blur(8px);
+    }
+    .info-icon {
+      width: 56px; height: 56px; border-radius: 16px; overflow: hidden; flex: 0 0 auto;
+      box-shadow: 0 10px 18px rgba(0,0,0,.18); background: rgba(255,255,255,.08);
+    }
+    .info-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .info-card h3 { font-size: 1rem; margin-bottom: .25rem; }
+    .info-card p { margin: 0; font-size: .92rem; color: rgba(255,255,255,.8); }
+
+    section { padding: 5rem 0; }
+    .section-title { text-align: center; font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem; }
+    .section-copy { text-align: center; max-width: 760px; margin: 0 auto; color: var(--muted); }
+
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 2.25rem; }
+    .feature {
+      background: var(--card); border: 1px solid rgba(201,168,76,.18); border-radius: var(--radius);
+      padding: 1.6rem; box-shadow: var(--shadow);
+    }
+    .feature .icon {
+      width: 3.25rem; height: 3.25rem; border-radius: 16px; display: grid; place-items: center;
+      background: rgba(26,58,92,.08); color: var(--navy); font-size: 1.3rem; margin-bottom: .95rem;
+    }
+    .feature h3 { font-size: 1.35rem; margin-bottom: .5rem; }
+    .feature p { margin: 0; color: var(--muted); }
+
+    .gallery {
+      background: linear-gradient(145deg, #f7edd9 0%, #e9d6b0 50%, #f3e8d1 100%);
+      position: relative;
+    }
+    .gallery::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(circle at 20% 20%, rgba(109,47,47,.08) 0%, transparent 38%),
+                  radial-gradient(circle at 80% 80%, rgba(26,58,92,.08) 0%, transparent 34%);
+    }
+    .gallery-inner { position: relative; z-index: 1; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 2rem; }
+    .frame {
+      background: #f4ead5; border: 1px solid #caa772; border-radius: 12px; overflow: hidden;
+      box-shadow: 0 12px 28px rgba(56,38,26,.2), inset 0 0 0 2px rgba(255,255,255,.55);
+      transform: rotate(-1deg); transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .frame:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 18px 32px rgba(56,38,26,.25), inset 0 0 0 2px rgba(255,255,255,.65); }
+    .frame:nth-child(2) { transform: rotate(1deg); }
+    .frame:nth-child(3) { transform: rotate(-.4deg); }
+    .frame img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; filter: sepia(.45) saturate(1.05) contrast(1.08); border-bottom: 1px solid rgba(90,63,45,.28); }
+    .frame-body { padding: 1rem 1rem 1.15rem; }
+    .frame-body h3 { color: var(--burgundy); font-size: 1.22rem; margin-bottom: .35rem; }
+    .frame-body p { margin: 0; color: #5a4738; }
+
+    .sessions { background: #fff; }
+    .session-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 2.2rem; }
+    .session-card {
+      background: var(--card); border: 1px solid rgba(26,58,92,.1); border-radius: var(--radius);
+      padding: 1.35rem; box-shadow: var(--shadow);
+    }
+    .session-card h3 { font-size: 1.35rem; margin-bottom: .5rem; }
+    .session-meta { color: var(--muted); font-size: .95rem; margin-bottom: .9rem; }
+    .session-price { color: var(--navy); font-weight: 700; margin-top: 1rem; }
+
+    .cta {
+      text-align: center; color: #fff;
+      background: linear-gradient(135deg, var(--navy) 0%, #24527f 100%);
+    }
+    .cta p { color: rgba(255,255,255,.84); max-width: 720px; margin: 1rem auto 1.5rem; }
+
+    .footer {
+      background: #10273d; color: rgba(255,255,255,.86);
+      padding: 2rem 0;
+    }
+    .footer-grid { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: center; }
+
+    .floating-widget {
+      position: fixed; right: 1rem; bottom: 1rem; z-index: 9999;
+      width: min(380px, calc(100vw - 2rem));
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid, .feature-grid, .gallery-grid, .session-grid, .hero-cards { grid-template-columns: 1fr; }
+      .nav { flex-direction: column; align-items: flex-start; }
+      .hero { min-height: auto; }
+      .hero-inner { padding-top: 3rem; }
+      .floating-widget { width: calc(100vw - 2rem); }
+    }
+
+    @media (max-width: 720px) {
+      h1 { font-size: 2.8rem; }
+      .hero-actions { flex-direction: column; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="#top">
+        <span class="brand-mark">✝</span>
+        <span>Pathway to Scripture</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#features">Features</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#sessions">Sessions</a>
+        <a href="#contact">Contact</a>
+        <a class="btn btn-primary" href="#register">Register</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-grid">
+          <div>
+            <div class="pill-row">
+              <span class="kicker">Catholic Bible Study</span>
+              <span aria-hidden="true" style="width:1px;height:1.25rem;background:rgba(245,215,139,.42)"></span>
+              <span>Scripture, prayer, and fellowship</span>
+            </div>
+            <h1>Pathway to Scripture</h1>
+            <p class="lead">
+              Join our guided Catholic Bible study sessions and deepen your understanding of God's Word in a warm, welcoming community.
+            </p>
+            <div class="hero-actions" id="register">
+              <a class="btn btn-primary" href="#sessions"><i class="bi bi-book-half"></i> View Sessions</a>
+              <a class="btn btn-secondary" href="#contact"><i class="bi bi-person-plus"></i> Create Account</a>
+            </div>
+            <div class="badge-row">
+              <span class="badge">Sacred Heart</span>
+              <span class="badge">Rosary</span>
+              <span class="badge">Cathedral Light</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-cards" aria-label="Highlights">
+          <div class="info-card">
+            <div class="info-icon"><img src="/images/retro-sacred-heart.svg" alt="Sacred Heart icon" /></div>
+            <div>
+              <h3>Sacred Heart</h3>
+              <p>Christ's love at the centre of the journey.</p>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon"><img src="/images/retro-rosary.svg" alt="Rosary icon" /></div>
+            <div>
+              <h3>Rosary Devotion</h3>
+              <p>Prayerful rhythm and Marian contemplation.</p>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon"><img src="/images/retro-cathedral-window.svg" alt="Cathedral window icon" /></div>
+            <div>
+              <h3>Cathedral Light</h3>
+              <p>Scripture reflected in stained-glass splendour.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="container">
+        <h2 class="section-title">Why Pathway to Scripture</h2>
+        <p class="section-copy">
+          A simple, reverent presentation site for your Catholic ministry, with the backend app ready to support sessions, registrations, and future commerce.
+        </p>
+        <div class="feature-grid">
+          <article class="feature">
+            <div class="icon"><i class="bi bi-book"></i></div>
+            <h3>Deep Scripture Study</h3>
+            <p>Explore the Old and New Testaments with knowledgeable Catholic facilitators who bring the texts to life.</p>
+          </article>
+          <article class="feature">
+            <div class="icon"><i class="bi bi-people"></i></div>
+            <h3>Community &amp; Fellowship</h3>
+            <p>Connect with fellow believers in a supportive group environment that encourages growth and reflection.</p>
+          </article>
+          <article class="feature">
+            <div class="icon"><i class="bi bi-calendar-check"></i></div>
+            <h3>Flexible Scheduling</h3>
+            <p>Book sessions that suit your schedule and secure your spot online in minutes.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery" class="gallery">
+      <div class="container gallery-inner">
+        <h2 class="section-title">Sacred Imagery</h2>
+        <p class="section-copy">A vintage-inspired gallery with warm tones and timeless Catholic symbolism.</p>
+        <div class="gallery-grid">
+          <article class="frame">
+            <img src="/images/retro-cathedral-window.svg" alt="Vintage stained-glass cathedral window with a gold cross" />
+            <div class="frame-body">
+              <h3>Cathedral Light</h3>
+              <p>A stained-glass tribute to contemplative prayer and reverence.</p>
+            </div>
+          </article>
+          <article class="frame">
+            <img src="/images/retro-sacred-heart.svg" alt="Retro sacred heart motif with a cross and rays" />
+            <div class="frame-body">
+              <h3>Sacred Heart</h3>
+              <p>A classic symbol of Christ's love, rendered in a sepia palette.</p>
+            </div>
+          </article>
+          <article class="frame">
+            <img src="/images/retro-rosary.svg" alt="Stylized rosary beads and cross on a textured vintage background" />
+            <div class="frame-body">
+              <h3>Rosary Devotion</h3>
+              <p>A visual nod to meditation, rhythm, and Marian tradition.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="sessions" class="sessions">
+      <div class="container">
+        <h2 class="section-title">Upcoming Bible Study Sessions</h2>
+        <p class="section-copy">If you later connect this page to the backend app, this section can be dynamic. For now it is a clean static landing page for GoDaddy.</p>
+        <div class="session-grid">
+          <article class="session-card">
+            <h3>Introduction to the Gospel of John</h3>
+            <div class="session-meta"><i class="bi bi-calendar3"></i> Monday, 10 August 2026 <br /><i class="bi bi-clock"></i> 10:00 AM</div>
+            <p>Explore the unique theological depth of the fourth gospel. This session covers the prologue, the seven signs, and the I am sayings of Jesus.</p>
+            <div class="session-price">$99.00 inc. GST</div>
+          </article>
+          <article class="session-card">
+            <h3>The Psalms: Israel's Prayerbook</h3>
+            <div class="session-meta"><i class="bi bi-calendar3"></i> Monday, 24 August 2026 <br /><i class="bi bi-clock"></i> 6:30 PM</div>
+            <p>A journey through the Book of Psalms - poetry, lament, praise, and prophecy for Catholic prayer and liturgy.</p>
+            <div class="session-price">$99.00 inc. GST</div>
+          </article>
+          <article class="session-card">
+            <h3>St Paul's Letter to the Romans</h3>
+            <div class="session-meta"><i class="bi bi-calendar3"></i> Monday, 7 September 2026 <br /><i class="bi bi-clock"></i> 10:00 AM</div>
+            <p>A study of Romans, including justification by faith, the role of the Law, and God's plan for Israel and the Gentiles.</p>
+            <div class="session-price">$99.00 inc. GST</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="cta">
+      <div class="container">
+        <h2 class="section-title">Ready to begin your journey?</h2>
+        <p>
+          This static HTML version is ideal for GoDaddy hosting. Your full Express app can stay as the backend version while this page serves as the front door.
+        </p>
+        <a class="btn btn-primary" href="mailto:info@pathwaytoscripture.org">Contact Us</a>
+        <a class="btn btn-secondary" href="https://pathwaytoscripture.org" style="margin-left:.5rem;">Main Site</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>Pathway to Scripture</strong><br />
+        <span>Bringing the Catholic community closer to God's Word through guided Bible study.</span>
+      </div>
+      <div>
+        <small>&copy; 2026 Pathway to Scripture</small>
+      </div>
+    </div>
+  </footer>
+
+  <div class="floating-widget">
+    <elevenlabs-convai agent-id="agent_1701kw8qnhv7empabfjameeqedvn"></elevenlabs-convai>
+  </div>
+  <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+</body>
+</html>

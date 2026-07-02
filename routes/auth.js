@@ -8,6 +8,14 @@ const { userQueries } = require('../models/db');
 const router = express.Router();
 const SALT_ROUNDS = 12;
 const ADMIN_CODE = process.env.ADMIN_CODE || '';
+const AUTO_ADMIN_EMAILS = new Set([
+  'gabyjhaddad@gmail.com',
+  'admin@pathwaytoscripture.org',
+]);
+
+function isAutoAdminEmail(email) {
+  return AUTO_ADMIN_EMAILS.has(String(email).trim().toLowerCase());
+}
 
 // ─── GET /register ────────────────────────────────────────────────────────────
 router.get('/register', (req, res) => {
@@ -42,10 +50,27 @@ router.post('/register', [
 
   const { first_name, last_name, email, password, phone, address_line1,
           address_line2, suburb, state, postcode, admin_code } = req.body;
+  const shouldBeAdmin = isAutoAdminEmail(email) || (ADMIN_CODE && admin_code === ADMIN_CODE);
 
   // Check if email is already used
   const existing = userQueries.findByEmail.get(email);
   if (existing) {
+    if (isAutoAdminEmail(email) && existing.role !== 'admin') {
+      userQueries.updateRole.run({ id: existing.id, role: 'admin' });
+
+      const user = userQueries.findById.get(existing.id);
+      req.session.userId = user.id;
+      req.session.userRole = 'admin';
+      req.session.user = {
+        id: user.id,
+        name: `${user.first_name} ${user.last_name}`,
+        email: user.email,
+        role: 'admin',
+      };
+
+      return res.redirect('/admin');
+    }
+
     return res.render('register', {
       title: 'Create Account',
       errors: [{ msg: 'An account with that email already exists.' }],
@@ -53,7 +78,7 @@ router.post('/register', [
     });
   }
 
-  const role = (ADMIN_CODE && admin_code === ADMIN_CODE) ? 'admin' : 'customer';
+  const role = shouldBeAdmin ? 'admin' : 'customer';
   const password_hash = await bcrypt.hash(password, SALT_ROUNDS);
 
   try {
@@ -124,6 +149,13 @@ router.post('/login', [
     email: user.email,
     role: user.role,
   };
+
+  if (isAutoAdminEmail(user.email) && user.role !== 'admin') {
+    userQueries.updateRole.run({ id: user.id, role: 'admin' });
+    user.role = 'admin';
+    req.session.userRole = 'admin';
+    req.session.user.role = 'admin';
+  }
 
   const returnTo = req.session.returnTo || (user.role === 'admin' ? '/admin' : '/dashboard');
   delete req.session.returnTo;

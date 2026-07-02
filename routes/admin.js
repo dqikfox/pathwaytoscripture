@@ -2,7 +2,14 @@
 
 const express = require('express');
 const { body, validationResult } = require('express-validator');
-const { userQueries, sessionQueries, bookingQueries, transactionQueries } = require('../models/db');
+const {
+  userQueries,
+  sessionQueries,
+  bookingQueries,
+  transactionQueries,
+  orderQueries,
+  orderItemQueries,
+} = require('../models/db');
 const { requireAdmin } = require('../middleware/auth');
 
 const router = express.Router();
@@ -188,6 +195,58 @@ router.get('/transactions', (req, res) => {
     transactions,
     user: req.session.user || null,
   });
+});
+
+// ─── GET /admin/orders ───────────────────────────────────────────────────────
+router.get('/orders', (req, res) => {
+  const orders = orderQueries.all.all();
+  res.render('admin/orders', {
+    title: 'Orders',
+    orders,
+    user: req.session.user || null,
+    flash: req.session.flash || null,
+  });
+  delete req.session.flash;
+});
+
+// ─── GET /admin/orders/:id ───────────────────────────────────────────────────
+router.get('/orders/:id', (req, res) => {
+  const order = orderQueries.findById.get(req.params.id);
+  if (!order) return res.redirect('/admin/orders');
+
+  const items = orderItemQueries.byOrder.all(order.id);
+  res.render('admin/order-detail', {
+    title: `Order #${order.id}`,
+    order,
+    items,
+    user: req.session.user || null,
+    flash: req.session.flash || null,
+  });
+  delete req.session.flash;
+});
+
+// ─── POST /admin/orders/:id/status ───────────────────────────────────────────
+router.post('/orders/:id/status', [
+  body('payment_status').isIn(['pending', 'paid', 'failed', 'awaiting_payment']).withMessage('Invalid payment status'),
+  body('fulfillment_status').isIn(['processing', 'fulfilled', 'cancelled']).withMessage('Invalid fulfillment status'),
+], (req, res) => {
+  const order = orderQueries.findById.get(req.params.id);
+  if (!order) return res.redirect('/admin/orders');
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    req.session.flash = { type: 'danger', msg: errors.array()[0].msg };
+    return res.redirect(`/admin/orders/${req.params.id}`);
+  }
+
+  orderQueries.updateStatuses.run({
+    id: req.params.id,
+    payment_status: req.body.payment_status,
+    fulfillment_status: req.body.fulfillment_status,
+  });
+
+  req.session.flash = { type: 'success', msg: 'Order status updated.' };
+  return res.redirect(`/admin/orders/${req.params.id}`);
 });
 
 module.exports = router;

@@ -12,12 +12,13 @@ const { userQueries, sessionQueries } = require('./models/db');
 
 const ADMIN_EMAIL = process.env.SEED_ADMIN_EMAIL || 'admin@pathwaytoscripture.org';
 const ADMIN_PASSWORD = process.env.SEED_ADMIN_PASSWORD || 'ChangeMe123!';
+const AUTO_ADMIN_EMAILS = ['gabyjhaddad@gmail.com'];
 
 async function seed() {
   // ── Admin account ──────────────────────────────────────────────────
   const existing = userQueries.findByEmail.get(ADMIN_EMAIL);
+  const hash = await bcrypt.hash(ADMIN_PASSWORD, 12);
   if (!existing) {
-    const hash = await bcrypt.hash(ADMIN_PASSWORD, 12);
     userQueries.create.run({
       first_name: 'Admin',
       last_name: 'User',
@@ -34,7 +35,17 @@ async function seed() {
     });
     console.log(`✓ Admin account created: ${ADMIN_EMAIL} (password set from SEED_ADMIN_PASSWORD env var)`);
   } else {
-    console.log(`  Admin account already exists: ${ADMIN_EMAIL}`);
+    userQueries.updateRole.run({ id: existing.id, role: 'admin' });
+    userQueries.updatePassword.run({ id: existing.id, password_hash: hash });
+    console.log(`✓ Admin account updated: ${ADMIN_EMAIL} (role refreshed and password reset)`);
+  }
+
+  for (const email of AUTO_ADMIN_EMAILS) {
+    const account = userQueries.findByEmail.get(email);
+    if (account && account.role !== 'admin') {
+      userQueries.updateRole.run({ id: account.id, role: 'admin' });
+      console.log(`✓ Auto-admin account promoted: ${email}`);
+    }
   }
 
   // ── Sample sessions ────────────────────────────────────────────────
