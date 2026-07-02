@@ -1,0 +1,50 @@
+{
+  "index.html": {
+    "title": "Catholic Bible Studies",
+    "meta": "Join Pathway to Scripture for guided Catholic Bible study sessions. Scripture, prayer, and fellowship for modern believers."
+  },
+  "about.html": {
+    "title": "About Us",
+    "meta": "Learn about Pathway to Scripture, a Catholic Bible study community founded by Gabby Haddad."
+  },
+  "contact.html": {
+    "title": "Contact",
+    "meta": "Contact Pathway to Scripture. Email info@pathwaytoscripture.org or call 0493 993 301."
+  },
+  "sessions.html": {
+    "title": "Sessions",
+    "meta": "Browse upcoming Catholic Bible study sessions at Pathway to Scripture."
+  },
+  "products.html": {
+    "title": "Store",
+    "meta": "Support Pathway to Scripture and explore resources from our store."
+  },
+  "login.html": {
+    "title": "Sign In",
+    "meta": "Sign in to your Pathway to Scripture account."
+  },
+  "register.html": {
+    "title": "Register",
+    "meta": "Create a Pathway to Scripture account."
+  },
+  "dashboard.html": {
+    "title": "Dashboard",
+    "meta": "Member dashboard for Pathway to Scripture."
+  },
+  "admin.html": {
+    "title": "Admin",
+    "meta": "Admin area for Pathway to Scripture."
+  },
+  "terms.html": {
+    "title": "Terms & Conditions",
+    "meta": "Terms and Conditions for Pathway to Scripture."
+  },
+  "privacy.html": {
+    "title": "Privacy Policy",
+    "meta": "Privacy Policy for Pathway to Scripture."
+  },
+  "refunds.html": {
+    "title": "Refund Policy",
+    "meta": "Refund Policy for Pathway to Scripture."
+  }
+}

@@ -3,50 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pathway to Scripture – Catholic Bible Studies</title>
-
-  <!-- Bootstrap CSS -->
+  <meta name="description" content="Join Pathway to Scripture for guided Catholic Bible study sessions. Scripture, prayer, and fellowship for modern believers.">
+  <title>Catholic Bible Studies – Pathway to Scripture</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-  <!-- Custom CSS (assuming it will be in the output directory) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Open+Sans:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
+  <style>
+    :root { --font-display: 'Cinzel', 'Playfair Display', serif; --font-body: 'Open Sans', sans-serif; }
+    body { font-family: var(--font-body); }
+    h1, h2, h3, h4, h5, .navbar-brand, .section-title, .display-font { font-family: var(--font-display); }
+    .navbar-dark.bg-navy { background: var(--pts-navy) !important; }
+    .footer-dark { background: #132a42 !important; color: #e8dcc3; }
+    .footer-dark a { color: var(--pts-gold-light); text-decoration: none; }
+    .footer-dark a:hover { color: #fff; text-decoration: underline; }
+    .social-btn { display:inline-flex; align-items:center; gap:.4rem; padding:.45rem .9rem; border-radius:999px; font-size:.9rem; font-weight:600; transition:.2s; }
+    .social-instagram { background:#e1306c; color:#fff; }
+    .social-gofundme { background:#00b964; color:#fff; }
+    .social-btn:hover { filter:brightness(1.1); color:#fff; }
+    .legal-page { max-width:820px; }
+    .legal-page h2 { margin-top:2rem; color:var(--pts-navy); border-bottom:2px solid var(--pts-gold); padding-bottom:.4rem; }
+  </style>
 </head>
-<body>
-
+<body class="d-flex flex-column min-vh-100">
   <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-navy shadow-sm">
       <div class="container">
-        <a class="navbar-brand" href="/">
-          <img src="/images/pw2s-logo.png" alt="Pathway to Scripture Logo" height="40">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/index.html">
+          <img src="/images/pw2s-logo.png" alt="Pathway to Scripture" height="42">
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="main-nav">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="/index.html">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/about.html">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/sessions">Sessions</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/products">Store</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/contact.html">Contact</a>
-            </li>
-          </ul>
-          <ul class="navbar-nav ms-lg-3">
-             <li class="nav-item">
-              <a href="/login" class="btn btn-outline-primary me-2">Sign In</a>
-            </li>
-            <li class="nav-item">
-              <a href="/register" class="btn btn-primary">Register</a>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+            <li class="nav-item"><a class="nav-link" href="/index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="/sessions.html">Sessions</a></li>
+            <li class="nav-item"><a class="nav-link" href="/products.html">Store</a></li>
+            <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
+            <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+              <a class="social-btn social-gofundme" href="https://gofund.me/6cf919b9e" target="_blank" rel="noopener">
+                <i class="bi bi-heart-fill"></i> Support Us
+              </a>
             </li>
           </ul>
         </div>
@@ -54,88 +55,90 @@
     </nav>
   </header>
 
-  <main class="flex-shrink-0">
-    
-<!-- Hero Section -->
+  <main class="flex-grow-1">
+    <!-- Hero Section -->
 <section class="hero-section text-white d-flex align-items-center">
-  <div class="container position-relative hero-shell">
+  <div class="container position-relative hero-shell py-5">
     <div class="row align-items-center g-5">
       <div class="col-lg-8 text-center text-lg-start">
-        <div class="hero-kicker-wrap mb-3">
+        <div class="hero-kicker-wrap mb-3 d-inline-flex">
           <span class="hero-kicker">Catholic Bible Study</span>
           <span class="hero-kicker-divider" aria-hidden="true"></span>
           <span class="hero-kicker-sub">Scripture, prayer, and fellowship</span>
         </div>
-        <img src="/images/pw2s-logo.png" alt="Pathway to Scripture" class="hero-logo" />
-        <p class="slogan mb-2 fst-italic text-warning fs-5">Modern study. Ancient wisdom.</p>
-        <p class="lead mb-4 hero-copy">
-          Join our guided Catholic Bible study sessions and deepen your understanding
-          of God's Word in a warm, welcoming community.
-        </p>
-        <div class="d-flex gap-3 justify-content-center justify-content-lg-start flex-wrap">
-          <a href="/sessions" class="btn btn-warning btn-lg fw-semibold"><i class="bi bi-book-half"></i> View Sessions</a>
-          <a href="/register" class="btn btn-outline-light btn-lg"><i class="bi bi-person-plus"></i> Create Account</a>
+        <h1 class="display-4 display-font mb-3">Welcome to Pathway to Scripture</h1>
+        <img src="/images/pw2s-logo.png" alt="Pathway to Scripture" class="hero-logo d-block mx-auto mx-lg-0 mb-3" />
+        <p class="slogan mb-3 fst-italic text-warning fs-5">Modern study. Ancient wisdom.</p>
+        <p class="lead mb-4 hero-copy">Join our guided Catholic Bible study sessions and deepen your understanding of God's Word in a warm, welcoming community.</p>
+        <div class="d-flex gap-3 justify-content-center justify-content-lg-start flex-wrap mb-4">
+          <a href="/sessions.html" class="btn btn-warning btn-lg fw-semibold"><i class="bi bi-book-half"></i> View Sessions</a>
+          <a href="/contact.html" class="btn btn-outline-light btn-lg"><i class="bi bi-envelope"></i> Get in Touch</a>
         </div>
-        <div class="hero-badges mt-4 d-flex justify-content-center justify-content-lg-start flex-wrap gap-2">
+        <div class="hero-badges d-flex justify-content-center justify-content-lg-start flex-wrap gap-2">
           <span class="badge hero-pill">Sacred Heart</span>
           <span class="badge hero-pill">Rosary</span>
           <span class="badge hero-pill">Cathedral Light</span>
         </div>
-        <p class="mt-4 hero-price">
-          <a href="/register" class="btn btn-warning btn-lg fw-semibold px-4">Start Your Journey Here</a>
-        </p>
       </div>
     </div>
-    <div class="row g-3 hero-icons mt-4 mt-lg-5">
-      <div class="col-md-4">
-        <div class="hero-icon-card">
-          <img src="/images/retro-sacred-heart.svg" alt="Sacred Heart" class="hero-icon-image" />
-          <div><h3 class="hero-icon-title mb-1">Sacred Heart</h3><p class="hero-icon-copy mb-0">Christ's love at the centre of the journey.</p></div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="hero-icon-card">
-          <img src="/images/retro-rosary.svg" alt="Rosary" class="hero-icon-image" />
-          <div><h3 class="hero-icon-title mb-1">Rosary Devotion</h3><p class="hero-icon-copy mb-0">Prayerful rhythm and Marian contemplation.</p></div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="hero-icon-card">
-          <img src="/images/retro-cathedral-window.svg" alt="Cathedral window" class="hero-icon-image" />
-          <div><h3 class="hero-icon-title mb-1">Cathedral Light</h3><p class="hero-icon-copy mb-0">Scripture reflected in stained-glass splendour.</p></div>
-        </div>
-      </div>
+    <div class="row g-3 hero-icons mt-5">
+      <div class="col-md-4"><div class="hero-icon-card"><img src="/images/retro-sacred-heart.svg" alt="Sacred Heart" class="hero-icon-image"><div><h3 class="hero-icon-title mb-1">Sacred Heart</h3><p class="hero-icon-copy mb-0">Christ's love at the centre of the journey.</p></div></div></div>
+      <div class="col-md-4"><div class="hero-icon-card"><img src="/images/retro-rosary.svg" alt="Rosary" class="hero-icon-image"><div><h3 class="hero-icon-title mb-1">Rosary Devotion</h3><p class="hero-icon-copy mb-0">Prayerful rhythm and Marian contemplation.</p></div></div></div>
+      <div class="col-md-4"><div class="hero-icon-card"><img src="/images/retro-cathedral-window.svg" alt="Cathedral window" class="hero-icon-image"><div><h3 class="hero-icon-title mb-1">Cathedral Light</h3><p class="hero-icon-copy mb-0">Scripture reflected in stained-glass splendour.</p></div></div></div>
     </div>
   </div>
 </section>
-
-<!-- Mission -->
 <section class="py-5"><div class="container"><div class="row justify-content-center"><div class="col-lg-8 text-center">
   <h2 class="section-title mb-4">Our Mission</h2>
   <p class="lead text-muted">At Pathway to Scripture, we offer a Bible study experience that is modern in its approach yet deeply rooted in timeless Christian tradition.</p>
   <p class="text-muted">We combine solid biblical teaching with accessible, real-world application — helping believers not only understand Scripture, but live it out with confidence, purpose, and faith.</p>
   <p class="fw-semibold text-primary mt-3">Our mission is simple: to guide every believer into deeper understanding, stronger spiritual growth, and a confident walk in the Word of God.</p>
 </div></div></div></section>
-
-<!-- Features -->
 <section class="py-5 bg-light"><div class="container"><div class="row text-center gy-4">
   <div class="col-md-4"><div class="feature-icon mb-3"><i class="bi bi-book text-primary fs-1"></i></div><h4>Deep Scripture Study</h4><p class="text-muted">Explore the Old and New Testaments with knowledgeable Catholic facilitators.</p></div>
   <div class="col-md-4"><div class="feature-icon mb-3"><i class="bi bi-people text-primary fs-1"></i></div><h4>Community & Fellowship</h4><p class="text-muted">Connect with fellow believers in a supportive group environment.</p></div>
   <div class="col-md-4"><div class="feature-icon mb-3"><i class="bi bi-calendar-check text-primary fs-1"></i></div><h4>Flexible Scheduling</h4><p class="text-muted">Book sessions that suit your schedule and secure your spot online.</p></div>
 </div></div></section>
-
+<section class="py-5"><div class="container"><div class="row justify-content-center"><div class="col-lg-8 text-center">
+  <h2 class="section-title mb-4">Support Our Mission</h2>
+  <p class="lead text-muted">Pathway to Scripture is a faith-led initiative. Your support helps us create study materials, host sessions, and reach more people with the Word of God.</p>
+  <a href="https://gofund.me/6cf919b9e" target="_blank" rel="noopener" class="btn btn-success btn-lg fw-semibold"><i class="bi bi-heart-fill"></i> Donate via GoFundMe</a>
+</div></div></div></section>
   </main>
 
-  <footer class="py-4 mt-auto bg-light">
-    <div class="container text-center">
-      <p class="text-muted mb-2">&copy; 2026 Pathway to Scripture. All Rights Reserved.</p>
-      <ul class="list-inline">
-        <li class="list-inline-item"><a href="/terms.html">Terms</a></li>
-        <li class="list-inline-item">&middot;</li>
-        <li class="list-inline-item"><a href="/privacy.html">Privacy</a></li>
-        <li class="list-inline-item">&middot;</li>
-        <li class="list-inline-item"><a href="/refunds.html">Refunds</a></li>
-      </ul>
+  <footer class="footer-dark py-5">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-md-4 text-center text-md-start">
+          <img src="/images/pw2s-logo.png" alt="Pathway to Scripture" height="50" class="mb-3">
+          <p class="small mb-0">Guided Catholic Bible study for modern believers.</p>
+        </div>
+        <div class="col-md-4 text-center">
+          <h5 class="text-white mb-3">Connect</h5>
+          <div class="d-flex justify-content-center gap-2 flex-wrap">
+            <a class="social-btn social-instagram" href="https://instagram.com/Haddadempire" target="_blank" rel="noopener"><i class="bi bi-instagram"></i> Haddadempire</a>
+            <a class="social-btn social-instagram" href="https://instagram.com/pathway2scripture" target="_blank" rel="noopener"><i class="bi bi-instagram"></i> pathway2scripture</a>
+            <a class="social-btn social-gofundme" href="https://gofund.me/6cf919b9e" target="_blank" rel="noopener"><i class="bi bi-heart-fill"></i> GoFundMe</a>
+          </div>
+        </div>
+        <div class="col-md-4 text-center text-md-end">
+          <h5 class="text-white mb-3">Contact</h5>
+          <p class="small mb-1"><i class="bi bi-envelope"></i> <a href="mailto:info@pathwaytoscripture.org">info@pathwaytoscripture.org</a></p>
+          <p class="small mb-1"><i class="bi bi-telephone"></i> 0493 993 301</p>
+          <p class="small mb-0">Gabby Haddad</p>
+        </div>
+      </div>
+      <hr class="border-secondary my-4">
+      <div class="text-center small">
+        <p class="mb-2">&copy; 2026 Pathway to Scripture. All Rights Reserved.</p>
+        <ul class="list-inline mb-0">
+          <li class="list-inline-item"><a href="/terms.html">Terms &amp; Conditions</a></li>
+          <li class="list-inline-item">&middot;</li>
+          <li class="list-inline-item"><a href="/privacy.html">Privacy Policy</a></li>
+          <li class="list-inline-item">&middot;</li>
+          <li class="list-inline-item"><a href="/refunds.html">Refund Policy</a></li>
+        </ul>
+      </div>
     </div>
   </footer>
 
