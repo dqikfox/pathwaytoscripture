@@ -12,7 +12,7 @@
         "tab.inactiveForeground": "#334155",
         "panelTitle.activeBorder": "#3b82f6",
         "terminal.ansiGreen": "#22c55e",
-        "statusBar.debuggingBackground": "#5c2d91",
+        "statusBar.debuggingBackground": "#e3008c",
         "button.hoverBackground": "#3b82f6",
         "sideBarSectionHeader.foreground": "#06b6d4",
         "sideBarTitle.foreground": "#3b82f6",
@@ -24,7 +24,7 @@
         "tab.inactiveBackground": "#060a14",
         "input.placeholderForeground": "#334155",
         "list.hoverBackground": "#0d1625",
-        "titleBar.activeBackground": "#5c2d91",
+        "titleBar.activeBackground": "#e3008c",
         "activityBarBadge.foreground": "#0a0e1a",
         "focusBorder": "#3b82f6",
         "statusBar.foreground": "#22c55e",
@@ -58,7 +58,7 @@
         "terminal.ansiCyan": "#06b6d4",
         "terminal.ansiBrightCyan": "#67e8f9",
         "tab.activeBorderTop": "#3b82f6",
-        "statusBar.background": "#5c2d91",
+        "statusBar.background": "#e3008c",
         "terminal.ansiBlue": "#3b82f6",
         "scrollbarSlider.activeBackground": "#3b82f6",
         "panelTitle.activeForeground": "#3b82f6",
@@ -104,7 +104,7 @@
         "peekViewTitle.background": "#060a14",
         "dropdown.border": "#1d4ed840",
         "inlineChat.background": "#0d1625",
-        "statusBar.noFolderBackground": "#5c2d91",
-        "titleBar.inactiveBackground": "#5c2d91"
+        "statusBar.noFolderBackground": "#e3008c",
+        "titleBar.inactiveBackground": "#e3008c"
     }
 }
