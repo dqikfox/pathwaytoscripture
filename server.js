@@ -141,7 +141,7 @@ app.use((err, req, res, _next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Pathway to Scripture running on http://localhost:${PORT}`);
+  console.log(`Pathway to Scripture running on http://localhost:${PORT} - server.js:144`);
 });
 
 module.exports = app;
