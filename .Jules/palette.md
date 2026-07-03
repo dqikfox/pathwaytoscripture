@@ -1,0 +1,3 @@
+## 2024-07-03 - Form Labels and Autocomplete in Authentication
+**Learning:** Adding `id` and `for` attributes to authentication forms is vital for screen reader accessibility. Additionally, adding `autocomplete="email"` and `autocomplete="current-password"` significantly reduces friction for users by explicitly enabling browser and password manager auto-filling, rather than relying on heuristics. We also added `aria-hidden="true"` to decorative icons inside buttons.
+**Action:** Always verify that input fields in authentication or checkout forms are explicitly linked to their labels and have appropriate `autocomplete` attributes.
