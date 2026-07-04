@@ -4,7 +4,8 @@
   "description": "Pathway to Scripture – Catholic Bible Study Sessions",
   "main": "server.js",
   "scripts": {
-    "build": "echo build",
+    "build": "python build_site.py",
+    "check:deploy": "python check_deploy.py",
     "start": "node server.js",
     "dev": "node server.js",
     "seed": "node seed.js",

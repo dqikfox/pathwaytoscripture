@@ -3,6 +3,12 @@
 Run from: `C:\project\pathwaytoscripture`
 Artifact: `godaddy-html-deploy.zip` (5.2 MB static HTML site)
 
+## Preflight checks
+
+1. Run `npm run build`.
+2. Run `npm run check:deploy`.
+3. Confirm both commands succeed before uploading the ZIP.
+
 ## What Copilot CLI should do
 
 1. Open a browser and navigate to GoDaddy Web Hosting dashboard.
