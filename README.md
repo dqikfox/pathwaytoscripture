@@ -4,10 +4,15 @@ A simplified static HTML version of the Pathway to Scripture website.
 
 ## Structure
 
+- `build_site.py` — Rebuilds `godaddy-html/`, `static_pages.json`, and `godaddy-html-deploy.zip`.
+- `check_deploy.py` — Verifies page metadata, local asset references, sitemap, robots, manifest, and ZIP contents before deployment.
 - `godaddy-html/` — Output directory containing the complete static website.
-- `base.html` — Master template for the static pages.
-- `build.py` — Rebuilds the deploy ZIP from `godaddy-html/`.
 - `godaddy-html-deploy.zip` — Deploy package for GoDaddy hosting.
+
+## Build and check
+
+1. Run `npm run build`.
+2. Run `npm run check:deploy`.
 
 ## Deploy
 
