@@ -33,8 +33,8 @@
                 <form method="POST" action="/products/cart/update" class="d-flex gap-2">
                   <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                   <input type="hidden" name="product_id" value="<%= item.product_id %>" />
-                  <input type="number" name="quantity" min="1" max="10" value="<%= item.quantity %>" class="form-control form-control-sm" />
-                  <button class="btn btn-sm btn-outline-primary" type="submit">Update</button>
+                  <input type="number" name="quantity" min="1" max="10" value="<%= item.quantity %>" class="form-control form-control-sm" aria-label="Quantity for <%= item.name %>" />
+                  <button class="btn btn-sm btn-outline-primary" type="submit" aria-label="Update quantity for <%= item.name %>">Update</button>
                 </form>
               </td>
               <td class="text-end">$<%= (item.unit_price_cents / 100).toFixed(2) %></td>
@@ -43,7 +43,7 @@
                 <form method="POST" action="/products/cart/remove">
                   <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                   <input type="hidden" name="product_id" value="<%= item.product_id %>" />
-                  <button class="btn btn-sm btn-outline-danger" type="submit">Remove</button>
+                  <button class="btn btn-sm btn-outline-danger" type="submit" aria-label="Remove <%= item.name %> from cart">Remove</button>
                 </form>
               </td>
             </tr>
