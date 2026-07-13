@@ -35,5 +35,12 @@
     "express-session": "^1.18.1",
     "express-validator": "^7.2.1",
     "stripe": "^17.7.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "bcrypt",
+      "better-sqlite3",
+      "sqlite3"
+    ]
   }
 }
